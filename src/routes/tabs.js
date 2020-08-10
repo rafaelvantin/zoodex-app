@@ -1,33 +1,45 @@
 import React from 'react';
+
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import Drawer from './drawer.js';
-
 import Maps from '../views/maps.js';
+
+import QrButtonIcon from '../components/qrButtonIcon.js';
 
 const Tab = createBottomTabNavigator();
 
 const homeTabOptions = {
-	tabBarColor: '#ffff33',
-	tabBarIcon: () => <Icon name="home" size={26} color="#000" />,
+	tabBarLabel: 'Home',
+	tabBarIcon: ({ color }) => <Icon name="home" size={28} color={color} />,
 };
 
 const mapsTabOptions = {
-	tabBarIcon: () => <Icon name="map" size={23} color="#000" />,
+	tabBarLabel: 'Map',
+	tabBarIcon: ({ color }) => <Icon name="map" size={25} color={color} />,
 };
 
 const scanQRTabOptions = {
-	tabBarIcon: () => <Icon name="qr-code-outline" size={23} color="#000" />,
+	tabBarLabel: 'Scan QR',
+	tabBarIcon: () => <QrButtonIcon />,
+};
+
+const tabBarOptions = {
+	activeTintColor: '#1E1E1E',
+	showLabel: false,
+	tabStyle: {
+		backgroundColor: '#EFEFEF',
+	},
 };
 
 export default function Tabs() {
 	return (
-		<Tab.Navigator activeColor="#FF00FF" tabBarOptions={{ showLabel: false }}>
-			<Tab.Screen name="Home" component={Drawer} options={homeTabOptions}></Tab.Screen>
-			<Tab.Screen name="About" component={Maps} options={scanQRTabOptions}></Tab.Screen>
-			<Tab.Screen name="Map" component={Maps} options={mapsTabOptions}></Tab.Screen>
+		<Tab.Navigator initialRouteName="Home" inactiveColor="#CCCDEE" tabBarOptions={tabBarOptions}>
+			<Tab.Screen name="Home" component={Drawer} options={homeTabOptions} />
+			<Tab.Screen name="QR" component={() => null} options={scanQRTabOptions} />
+			<Tab.Screen name="Map" component={Maps} options={mapsTabOptions} />
 		</Tab.Navigator>
 	);
 }

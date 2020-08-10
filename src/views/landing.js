@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { View, Text, Button, TextInput, StyleSheet } from 'react-native';
+import { View, Text, TextInput, StyleSheet } from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 
 export default function Landing({ navigation }) {
@@ -11,7 +11,7 @@ export default function Landing({ navigation }) {
 	return (
 		<View style={styles.container}>
 			<Text style={styles.text}>Digite Seu Nome</Text>
-			<TextInput style={styles.input} maxLength={20} underlineColorAndroid={'black'}></TextInput>
+			<TextInput style={styles.input} maxLength={20} underlineColorAndroid="black" />
 			<TouchableHighlight style={styles.button}>
 				<Text style={styles.buttonText} onPress={navToHome}>
 					Next

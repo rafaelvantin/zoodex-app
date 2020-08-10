@@ -8,15 +8,15 @@ export default function IdentifyZoo({ navigation }) {
 	}
 
 	return (
-		<View style={styles.container}>
-			<Text style={styles.text}>Digite o ID do Zoologico</Text>
-			<TextInput style={styles.input} maxLength={20} underlineColorAndroid={'black'}></TextInput>
-			<TouchableHighlight style={styles.button}>
-				<Text style={styles.buttonText} onPress={navToHome}>
-					Next
-				</Text>
-			</TouchableHighlight>
-		</View>
+  <View style={styles.container}>
+    <Text style={styles.text}>Digite o ID do Zoologico</Text>
+    <TextInput style={styles.input} maxLength={20} underlineColorAndroid="black" />
+    <TouchableHighlight style={styles.button}>
+      <Text style={styles.buttonText} onPress={navToHome}>
+        Next
+      </Text>
+    </TouchableHighlight>
+  </View>
 	);
 }
 

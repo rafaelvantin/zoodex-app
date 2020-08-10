@@ -1,46 +1,54 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import { View, TextInput, StyleSheet } from 'react-native';
+import { View, TextInput, StyleSheet, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+// onPress={() => navigation.openDrawer()}
 
 export default function Home({ navigation }) {
-	return (
-		<View style={styles.container}>
+	const [searchInput, setSearchInput] = useState(null);
+
+	const listHeaderComponent = (
+		<View style={styles.headerContainer}>
 			<View style={styles.firstRow}>
-				<Icon name="menu-outline" size={35} onPress={() => navigation.openDrawer()}></Icon>
-				<Icon name="star-outline" color="#e5c100" size={32}></Icon>
-				<Icon name="cog" size={33}></Icon>
+				<Icon name="menu-outline" size={35} onPress={() => navigation.openDrawer()} />
+				<Icon name="star-outline" color="#e5c100" size={32} />
+				<Icon name="cog" size={33} />
 			</View>
 			<View style={styles.secundRow}>
 				<View style={styles.textFieldContainer}>
-					{/* onChangeText={} */}
-					<TextInput style={styles.input} autoCorrect={false} />
+					<TextInput
+						style={styles.input}
+						autoCorrect={false}
+						onChangeText={(text) => setSearchInput(text)}
+					/>
 					<Icon name="search" color="#000" size={20} />
 				</View>
 			</View>
-			<View style={styles.thirdRow}>
-				<View style={styles.animalBoxRow}>
+		</View>
+	);
+
+	return (
+		<View style={styles.container}>
+			<FlatList
+				ListHeaderComponent={listHeaderComponent}
+				numColumns={2}
+				keyExtractor={(item) => item.key}
+				data={[
+					{ key: '3', d: '1' },
+					{ key: '4' },
+					{ key: '5' },
+					{ key: '6' },
+					{ key: '7' },
+					{ key: '8' },
+					{ key: '9' },
+				]}
+				renderItem={() => (
 					<View style={styles.animalBox}>
-						<Icon name="question" color="#FFF" size={120}></Icon>
+						<Icon name="question" color="#FFF" size={120} />
 					</View>
-					<View style={styles.animalBox}>
-						<Icon name="question" color="#FFF" size={120}></Icon>
-					</View>
-				</View>
-				<View style={styles.animalBoxRow}>
-					<View style={styles.animalBox}></View>
-					<View style={styles.animalBox}></View>
-				</View>
-				<View style={styles.animalBoxRow}>
-					<View style={styles.animalBox}></View>
-					<View style={styles.animalBox}></View>
-				</View>
-				<View style={styles.animalBoxRow}>
-					<View style={styles.animalBox}></View>
-					<View style={styles.animalBox}></View>
-				</View>
-			</View>
-			<View style={styles.row}></View>
+				)}
+			/>
+			<View style={styles.row} />
 		</View>
 	);
 }
@@ -49,7 +57,12 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		justifyContent: 'flex-start',
-		backgroundColor: '#FFF',
+		alignItems: 'center',
+		backgroundColor: '#fdfdfd',
+	},
+	headerContainer: {
+		flex: 1,
+		justifyContent: 'flex-start',
 		paddingRight: 18,
 		paddingLeft: 18,
 	},
@@ -64,12 +77,6 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignItems: 'center',
 		marginBottom: 8,
-	},
-	thirdRow: {
-		flex: 10,
-		paddingRight: 7,
-		paddingLeft: 7,
-		// alignItems: 'center',
 	},
 	text: {
 		fontSize: 20,
@@ -88,16 +95,12 @@ const styles = StyleSheet.create({
 	input: {
 		flex: 1,
 	},
-	animalBoxRow: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		marginBottom: 30,
-	},
 	animalBox: {
 		backgroundColor: '#393939',
-		width: 162,
 		height: 210,
+		flexGrow: 1,
 		alignItems: 'center',
+		marginBottom: 8,
 		justifyContent: 'center',
 	},
 });
