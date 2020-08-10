@@ -2,16 +2,18 @@ import React from 'react';
 
 import { View, TouchableHighlight, StyleSheet } from 'react-native';
 
+import { useNavigation } from '@react-navigation/native';
+
 import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function QrButtonIcon() {
+	const navigation = useNavigation();
+
 	return (
 		<View style={{ position: 'absolute', alignItems: 'center' }}>
-			<View style={styles.button}>
-				<TouchableHighlight>
-					<Icon name="qr-code-outline" size={27} color="#fff" />
-				</TouchableHighlight>
-			</View>
+			<TouchableHighlight style={styles.button} onPress={() => navigation.navigate('QR')}>
+				<Icon name="qr-code-outline" size={27} color="#fff" />
+			</TouchableHighlight>
 		</View>
 	);
 }
@@ -25,7 +27,7 @@ const styles = StyleSheet.create({
 		height: 62,
 		borderRadius: 36,
 		position: 'absolute',
-		top: -50,
+		top: -40,
 		elevation: 2,
 		borderWidth: 2,
 		borderColor: '#fff',

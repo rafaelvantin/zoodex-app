@@ -7,6 +7,16 @@ import Icon from 'react-native-vector-icons/Ionicons';
 export default function Home({ navigation }) {
 	const [searchInput, setSearchInput] = useState(null);
 
+	const [animals, setAnimals] = useState([
+		{ key: '3', d: '1' },
+		{ key: '4' },
+		{ key: '5' },
+		{ key: '6' },
+		{ key: '7' },
+		{ key: '8' },
+		{ key: '9' },
+	]);
+
 	const listHeaderComponent = (
 		<View style={styles.headerContainer}>
 			<View style={styles.firstRow}>
@@ -17,7 +27,7 @@ export default function Home({ navigation }) {
 			<View style={styles.secundRow}>
 				<View style={styles.textFieldContainer}>
 					<TextInput
-						style={styles.input}
+						style={{ flex: 1 }}
 						autoCorrect={false}
 						onChangeText={(text) => setSearchInput(text)}
 					/>
@@ -27,28 +37,42 @@ export default function Home({ navigation }) {
 		</View>
 	);
 
+	const renderItem = ({ item }) => {
+		if (item.isEmpty) {
+			return (
+				<View style={[styles.animalBox, { backgroundColor: 'transparent' }]}>
+					<Icon name="question" color="transparent" size={120} />
+				</View>
+			);
+		}
+		return (
+			<View style={styles.animalBox}>
+				<Icon name="question" color="#FFF" size={120} />
+			</View>
+		);
+	};
+
+	const createRows = (data) => {
+		if (data.length % 2 !== 0) {
+			data.push({
+				key: 'empty',
+				isEmpty: true,
+			});
+		}
+		return data;
+	};
+
 	return (
 		<View style={styles.container}>
-			<FlatList
-				ListHeaderComponent={listHeaderComponent}
-				numColumns={2}
-				keyExtractor={(item) => item.key}
-				data={[
-					{ key: '3', d: '1' },
-					{ key: '4' },
-					{ key: '5' },
-					{ key: '6' },
-					{ key: '7' },
-					{ key: '8' },
-					{ key: '9' },
-				]}
-				renderItem={() => (
-					<View style={styles.animalBox}>
-						<Icon name="question" color="#FFF" size={120} />
-					</View>
-				)}
-			/>
-			<View style={styles.row} />
+			<View style={styles.listContainer}>
+				<FlatList
+					ListHeaderComponent={listHeaderComponent}
+					numColumns={2}
+					keyExtractor={(item) => item.key}
+					data={createRows(animals)}
+					renderItem={renderItem}
+				/>
+			</View>
 		</View>
 	);
 }
@@ -56,15 +80,11 @@ export default function Home({ navigation }) {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		justifyContent: 'flex-start',
-		alignItems: 'center',
 		backgroundColor: '#fdfdfd',
 	},
 	headerContainer: {
 		flex: 1,
 		justifyContent: 'flex-start',
-		paddingRight: 18,
-		paddingLeft: 18,
 	},
 	firstRow: {
 		flex: 1,
@@ -78,10 +98,6 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		marginBottom: 8,
 	},
-	text: {
-		fontSize: 20,
-		marginBottom: 10,
-	},
 	textFieldContainer: {
 		flexDirection: 'row',
 		alignItems: 'center',
@@ -92,8 +108,9 @@ const styles = StyleSheet.create({
 		borderRadius: 3,
 		paddingRight: 5,
 	},
-	input: {
-		flex: 1,
+	listContainer: {
+		marginLeft: 8,
+		marginRight: 8,
 	},
 	animalBox: {
 		backgroundColor: '#393939',
@@ -102,5 +119,6 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		marginBottom: 8,
 		justifyContent: 'center',
+		margin: 3,
 	},
 });
