@@ -24,9 +24,9 @@ export default function DrawerContent(props) {
       icon: "md-trophy",
     },
     {
-      label: "Como Chegar",
-      routeName: "Location",
-      icon: "md-navigate",
+      label: "Informações Zoo",
+      routeName: "ZooInfo",
+      icon: "md-information-circle",
     },
   ];
 

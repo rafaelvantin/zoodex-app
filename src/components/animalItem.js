@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import {
   View,
@@ -75,24 +75,13 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     resizeMode: "cover",
   },
-  animalIdText: {
-    flex: 1,
-    backgroundColor: "transparent",
-    color: "#fff",
-    fontWeight: "bold",
-    fontSize: 18,
-    opacity: 1,
-    position: "absolute",
-    bottom: 5,
-    left: 5,
-  },
   infoContainer: {
     marginTop: 10,
     marginLeft: 8,
   },
   nameText: {
-    fontWeight: "bold",
-    fontSize: 25,
+    fontFamily: "Montserrat-bold",
+    fontSize: 22,
   },
   scientificNameText: {
     opacity: 0.7,
@@ -106,7 +95,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   habitatText: {
-    fontSize: 15,
+    fontFamily: "Montserrat-regular",
+    fontSize: 14,
     opacity: 0.7,
   },
 });

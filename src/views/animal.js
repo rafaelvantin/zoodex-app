@@ -213,8 +213,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 10,
     right: 5,
-    height: "30%",
-    width: "30%",
+    height: "25%",
+    width: "25%",
   },
 
   notebookContainer: {

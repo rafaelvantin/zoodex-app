@@ -181,7 +181,8 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     color: "white",
     fontSize: 80,
-    fontWeight: "bold",
+    fontFamily: "Montserrat-bold",
+    // fontWeight: "bold",
   },
 
   columns: {
@@ -206,7 +207,8 @@ const styles = StyleSheet.create({
   },
 
   columnName: {
-    fontWeight: "bold",
+    // fontWeight: "bold",
+    fontFamily: "Montserrat-bold",
     color: "white",
     fontSize: 20,
   },
@@ -268,7 +270,7 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
   },
   name: {
-    fontFamily: "Roboto",
+    fontFamily: "Montserrat-regular",
     fontSize: 20,
     opacity: 0.9,
   },

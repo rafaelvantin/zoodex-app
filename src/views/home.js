@@ -7,21 +7,22 @@ import {
   Image,
   Text,
   TouchableHighlight,
+  TextInput,
 } from "react-native";
 
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { Ionicons, AntDesign } from "@expo/vector-icons";
 
 import { UserContext } from "../store/userContext";
 import { AnimalContext } from "../store/animalContext.js";
 
 import AnimalItem from "../components/animalItem.js";
+import PrizeAnimal from "../components/prizeAnimal.js";
 
 export default function Home({ navigation }) {
+  const [overlayOn, setOverlayOn] = useState(false);
+
   const { animals } = useContext(AnimalContext);
-
   const { foundAnimals } = useContext(UserContext);
-
-  // const [animals, setAnimals] = useState([]);
 
   const listHeaderComponent = (
     <View style={styles.headerContainer}>
@@ -31,7 +32,12 @@ export default function Home({ navigation }) {
           size={45}
           onPress={() => navigation.openDrawer()}
         />
-        <Ionicons name="md-star-outline" color="#e5c100" size={42} />
+        <TouchableHighlight
+          onPress={() => setOverlayOn(true)}
+          underlayColor="transparent"
+        >
+          <AntDesign name="staro" color="#e5c100" size={42} />
+        </TouchableHighlight>
       </View>
     </View>
   );
@@ -39,10 +45,6 @@ export default function Home({ navigation }) {
   const renderAnimalItem = ({ item }) => (
     <AnimalItem item={item} foundAnimals={foundAnimals} />
   );
-
-  useEffect(() => {
-    console.log(foundAnimals);
-  }, [foundAnimals]);
 
   return (
     <View style={styles.container}>
@@ -54,6 +56,9 @@ export default function Home({ navigation }) {
           renderItem={renderAnimalItem}
         />
       </View>
+      {overlayOn ? (
+        <PrizeAnimal closeOverlay={() => setOverlayOn(false)} />
+      ) : null}
     </View>
   );
 }

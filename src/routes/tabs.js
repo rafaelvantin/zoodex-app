@@ -13,28 +13,27 @@ import QrButtonIcon from "../components/qrButtonIcon.js";
 const Tab = createBottomTabNavigator();
 
 const homeTabOptions = {
-  tabBarLabel: "Home",
+  tabBarLabel: "Início",
   tabBarIcon: ({ color }) => (
     <Ionicons name="md-home" size={28} color={color} />
   ),
 };
 
 const mapsTabOptions = {
-  tabBarLabel: "Map",
+  tabBarLabel: "Mapa",
   tabBarIcon: ({ color }) => <Ionicons name="md-map" size={25} color={color} />,
 };
 
 const scanQRTabOptions = {
-  tabBarLabel: "Scan QR",
+  tabBarLabel: "",
   tabBarIcon: () => <QrButtonIcon />,
 };
 
 const tabBarOptions = {
   activeTintColor: "#1E1E1E",
-  showLabel: false,
   showIcon: true,
   tabStyle: {
-    backgroundColor: "#EFEFEF",
+    backgroundColor: "#fcfcfc",
   },
 };
 
