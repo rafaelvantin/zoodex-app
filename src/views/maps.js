@@ -1,10 +1,20 @@
 import React from "react";
 
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, StyleSheet } from "react-native";
 
-export default function Maps() {
+import { Ionicons } from "@expo/vector-icons";
+
+export default function Maps({ navigation }) {
   return (
     <View style={{ flex: 1 }}>
+      <View style={styles.menuIcon}>
+        <Ionicons
+          name="md-menu"
+          size={45}
+          color="black"
+          onPress={() => navigation.openDrawer()}
+        />
+      </View>
       <Image
         source={{
           uri:
@@ -15,3 +25,12 @@ export default function Maps() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  menuIcon: {
+    position: "absolute",
+    left: 5,
+    top: 5,
+    zIndex: 999999,
+  },
+});

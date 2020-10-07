@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 
 import HomeStackNavigator from "./homeStackNavigator.js";
-import Maps from "../views/maps.js";
+import Chat from "../views/chat.js";
 import ScanQR from "../views/scanQr.js";
 
 import QrButtonIcon from "../components/qrButtonIcon.js";
@@ -20,8 +20,10 @@ const homeTabOptions = {
 };
 
 const mapsTabOptions = {
-  tabBarLabel: "Mapa",
-  tabBarIcon: ({ color }) => <Ionicons name="md-map" size={25} color={color} />,
+  tabBarLabel: "Chat",
+  tabBarIcon: ({ color }) => (
+    <Ionicons name="md-chatboxes" size={25} color={color} />
+  ),
 };
 
 const scanQRTabOptions = {
@@ -50,7 +52,7 @@ export default function Tabs() {
         options={homeTabOptions}
       />
       <Tab.Screen name="QR" component={ScanQR} options={scanQRTabOptions} />
-      <Tab.Screen name="Map" component={Maps} options={mapsTabOptions} />
+      <Tab.Screen name="Chat" component={Chat} options={mapsTabOptions} />
     </Tab.Navigator>
   );
 }

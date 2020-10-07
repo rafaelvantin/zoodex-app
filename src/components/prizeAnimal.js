@@ -50,7 +50,10 @@ export default function PrizeAnimal({ closeOverlay }) {
   );
 
   const buttonTry = (
-    <TouchableHighlight onPress={() => sendName()} style={styles.button}>
+    <TouchableHighlight
+      onPress={() => input.length > 0 && sendName()}
+      style={styles.button}
+    >
       <Text style={styles.buttonText}>ENVIAR</Text>
     </TouchableHighlight>
   );

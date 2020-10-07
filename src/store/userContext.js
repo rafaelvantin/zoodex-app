@@ -17,10 +17,11 @@ export const UserStorage = ({ children }) => {
       const storedActiveZoo = await AsyncStorage.getItem("@activeZoo");
       const storedFoundAnimals = await AsyncStorage.getItem("@foundAnimals");
       const storedName = await AsyncStorage.getItem("@username");
+      saveUsername("Rafael");
 
       if (storedActiveZoo) setActiveZoo(storedActiveZoo);
       if (storedFoundAnimals) setFoundAnimals(JSON.parse(storedFoundAnimals));
-      if (storedName) setName(storedName);
+      if (storedName) setUsername(storedName);
     }
     loadStorage();
 
