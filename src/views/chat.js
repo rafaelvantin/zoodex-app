@@ -13,7 +13,7 @@ import io from "socket.io-client";
 import BRFormat from "dayjs/locale/pt-br";
 
 export default function Chat() {
-  const { getUsername, getUserID } = useContext(UserContext);
+  const { getUsername, getUserID, activeZoo } = useContext(UserContext);
   const [messages, setMessages] = useState([]);
   const socket = io("http://192.168.0.2:3000");
 
@@ -48,29 +48,17 @@ export default function Chat() {
   };
 
   useEffect(() => {
-    setMessages([
-      {
-        _id: 1,
-        text: "Bom dia 73B!",
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: "Grupo Coffuel",
-          avatar: "https://placeimg.com/140/140/any",
-        },
-      },
-    ]);
-    socket.on("message", (message) => {
-      if (message.user.id == getUserID) return;
-      setMessages((previous) => GiftedChat.append(previous, message));
-      console.log(messages);
+    socket.emit("join", { user: getUsername, room: activeZoo });
+
+    socket.on("message", (newMessages) => {
+      newMessages.map((item) => {
+        setMessages((previous) => GiftedChat.append(previous, item));
+      });
     });
   }, []);
 
-  const onSend = (message) => {
-    socket.emit("message", message);
-    setMessages((previous) => GiftedChat.append(previous, message));
-  };
+  const onSend = (message) => socket.emit("message", message);
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <GiftedChat

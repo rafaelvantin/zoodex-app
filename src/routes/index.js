@@ -12,13 +12,12 @@ const Stack = createStackNavigator();
 
 export default function Routes() {
   const { getUsername } = useContext(UserContext);
-  console.log(getUsername);
 
   return (
     <Stack.Navigator
       headerMode="none"
-      initialRouteName={getUsername != "" ? "Home" : "InitialSlides"}
-      // initialRouteName={"Home"}
+      // initialRouteName={getUsername != "" ? "Home" : "InitialSlides"}
+      initialRouteName={"Home"}
     >
       <Stack.Screen name="InitialSlides" component={InitialSlides} />
       <Stack.Screen name="Home" component={Drawer} />

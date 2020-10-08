@@ -29,8 +29,10 @@ export default function PrizeAnimal({ closeOverlay }) {
     "Irmão do leão",
   ];
 
-  const displayHints = hints.map((item) => (
-    <Text style={styles.hintText}> {item} </Text>
+  const displayHints = hints.map((item, index) => (
+    <Text style={styles.hintText} key={index}>
+      {item}
+    </Text>
   ));
 
   const instructions = [

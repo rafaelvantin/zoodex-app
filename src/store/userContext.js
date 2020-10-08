@@ -18,24 +18,24 @@ export const UserStorage = ({ children }) => {
 
   useEffect(() => {
     async function loadStorage() {
-      const storedActiveZoo = await AsyncStorage.getItem("@activeZoo");
+      // const storedActiveZoo = await AsyncStorage.getItem("@activeZoo");
       const storedFoundAnimals = await AsyncStorage.getItem("@foundAnimals");
       const storedName = await AsyncStorage.getItem("@username");
       const storedID = await AsyncStorage.getItem("@userID");
 
-      if (storedActiveZoo) setActiveZoo(storedActiveZoo);
+      // if (storedActiveZoo) setActiveZoo(storedActiveZoo);
       if (storedFoundAnimals) setFoundAnimals(JSON.parse(storedFoundAnimals));
       if (storedName) setUsername(storedName);
       if (storedID) setUserID(storedID);
     }
     loadStorage();
     leaveZoo();
-
     // if (activeZoo) {
     //   searchZoo
     //     .then((zoo) => setZooInfo(zoo))
     //     .catch((error) => console.log(error));
     // }
+    saveUsername("rafael");
   }, []);
 
   const saveFoundAnimal = async (id) => {
@@ -48,11 +48,7 @@ export const UserStorage = ({ children }) => {
   const saveUsername = async (name) => {
     setUsername(name);
     await AsyncStorage.setItem("@username", name);
-    // if (getUserID != "") return;
-    console.log(v4);
-    console.log(v4());
     const generatedID = v4();
-    console.log(generatedID);
     setUserID(generatedID);
     await AsyncStorage.setItem("@userID", getUserID);
   };
