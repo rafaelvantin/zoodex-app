@@ -61,7 +61,7 @@ export default function PrizeAnimal({ closeOverlay }) {
   const sendName = () => {
     if (triesAvailable == 0) return;
     if (getPrizeAnimal().toLowerCase() != input.trim().toLowerCase())
-      saveTriesAvailable(triesAvailable - 1);
+      return saveTriesAvailable(triesAvailable - 1);
     saveFoundPrizeAnimal(true);
   };
 

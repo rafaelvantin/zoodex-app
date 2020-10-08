@@ -1,39 +1,21 @@
 import React, { useState, useEffect, useContext } from "react";
 
-import { View, SafeAreaView } from "react-native";
-
-import { MaterialIcons } from "@expo/vector-icons";
+import { SafeAreaView, View } from "react-native";
 
 import { GiftedChat, Bubble, Send } from "react-native-gifted-chat";
 
+import { MaterialIcons } from "@expo/vector-icons";
+
 import { UserContext } from "../store/userContext";
+
+import io from "socket.io-client";
 
 import BRFormat from "dayjs/locale/pt-br";
 
-export default function Maps() {
-  const { getUsername } = useContext(UserContext);
+export default function Chat() {
+  const { getUsername, getUserID } = useContext(UserContext);
   const [messages, setMessages] = useState([]);
-
-  useEffect(() => {
-    setMessages([
-      {
-        _id: 1,
-        text: "Bom dia 73B!",
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: "Grupo Coffuel",
-          avatar: "https://placeimg.com/140/140/any",
-        },
-      },
-    ]);
-  }, []);
-
-  const onSend = (messages = []) => {
-    setMessages((previousMessages) =>
-      GiftedChat.append(previousMessages, messages)
-    );
-  };
+  const socket = io("http://192.168.0.2:3000");
 
   const renderBubble = (props) => {
     return (
@@ -65,13 +47,37 @@ export default function Maps() {
     );
   };
 
+  useEffect(() => {
+    setMessages([
+      {
+        _id: 1,
+        text: "Bom dia 73B!",
+        createdAt: new Date(),
+        user: {
+          _id: 2,
+          name: "Grupo Coffuel",
+          avatar: "https://placeimg.com/140/140/any",
+        },
+      },
+    ]);
+    socket.on("message", (message) => {
+      if (message.user.id == getUserID) return;
+      setMessages((previous) => GiftedChat.append(previous, message));
+      console.log(messages);
+    });
+  }, []);
+
+  const onSend = (message) => {
+    socket.emit("message", message);
+    setMessages((previous) => GiftedChat.append(previous, message));
+  };
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <GiftedChat
-        style={{ flex: 1 }}
-        user={{ name: getUsername }}
-        messages={messages}
+        user={{ name: getUsername, id: getUserID }}
         onSend={(messages) => onSend(messages)}
+        messages={messages}
+        style={{ flex: 1 }}
         placeholder="Escreva aqui..."
         renderAvatar={null}
         renderUsernameOnMessage={true}

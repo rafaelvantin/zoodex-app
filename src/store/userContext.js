@@ -2,11 +2,15 @@ import React, { createContext, useEffect, useState } from "react";
 
 import AsyncStorage from "@react-native-community/async-storage";
 
+import "react-native-get-random-values";
+import { v4 } from "uuid";
+
 import { searchZoo } from "../services/zoo";
 
 export const UserContext = createContext();
 
 export const UserStorage = ({ children }) => {
+  const [getUserID, setUserID] = useState("");
   const [getUsername, setUsername] = useState("");
   const [foundAnimals, setFoundAnimals] = useState([]);
   const [zooInfo, setZooInfo] = useState({});
@@ -17,19 +21,21 @@ export const UserStorage = ({ children }) => {
       const storedActiveZoo = await AsyncStorage.getItem("@activeZoo");
       const storedFoundAnimals = await AsyncStorage.getItem("@foundAnimals");
       const storedName = await AsyncStorage.getItem("@username");
-      saveUsername("Rafael");
+      const storedID = await AsyncStorage.getItem("@userID");
 
       if (storedActiveZoo) setActiveZoo(storedActiveZoo);
       if (storedFoundAnimals) setFoundAnimals(JSON.parse(storedFoundAnimals));
       if (storedName) setUsername(storedName);
+      if (storedID) setUserID(storedID);
     }
     loadStorage();
+    leaveZoo();
 
-    if (activeZoo) {
-      searchZoo
-        .then((zoo) => setZooInfo(zoo))
-        .catch((error) => console.log(error));
-    }
+    // if (activeZoo) {
+    //   searchZoo
+    //     .then((zoo) => setZooInfo(zoo))
+    //     .catch((error) => console.log(error));
+    // }
   }, []);
 
   const saveFoundAnimal = async (id) => {
@@ -42,6 +48,13 @@ export const UserStorage = ({ children }) => {
   const saveUsername = async (name) => {
     setUsername(name);
     await AsyncStorage.setItem("@username", name);
+    // if (getUserID != "") return;
+    console.log(v4);
+    console.log(v4());
+    const generatedID = v4();
+    console.log(generatedID);
+    setUserID(generatedID);
+    await AsyncStorage.setItem("@userID", getUserID);
   };
 
   const saveActiveZoo = async (id) => {
@@ -64,11 +77,12 @@ export const UserStorage = ({ children }) => {
       value={{
         foundAnimals,
         saveFoundAnimal,
-        getAdditionalInfo,
+        getUserID,
         getUsername,
         saveUsername,
         activeZoo,
         saveActiveZoo,
+        getAdditionalInfo,
         leaveZoo,
       }}
     >
