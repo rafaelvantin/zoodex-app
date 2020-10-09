@@ -1,53 +1,66 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useState, useContext } from "react";
+
+import AsyncStorage from "@react-native-community/async-storage";
 
 import { searchAllAnimals } from "../services/animals";
+
+import { ZooContext } from "./zooContext";
 
 export const AnimalContext = createContext([]);
 
 export const AnimalStorage = ({ children }) => {
   const [animals, setAnimals] = useState([]);
+  const [foundAnimals, setFoundAnimals] = useState({});
+  const [getThisFoundAnimals, setThisFoundAnimals] = useState([]);
+  const { activeZoo } = useContext(ZooContext);
+
+  const createObjectInstance = () => {
+    const newFoundAnimals = foundAnimals;
+    newFoundAnimals[activeZoo] = [];
+    setFoundAnimals(newFoundAnimals);
+  };
 
   useEffect(() => {
-    setAnimals([
-      { key: "3" },
-      {
-        key: "4",
-        name: "Macaco-prego",
-        scientificName: "Sapajus",
-        habitat: "Floresta Amazônica",
-        image:
-          "https://s2.glbimg.com/50Idnx6C06sgR4s-S7sodZ0tkQk=/290x217/s2.glbimg.com/29x2zOKPeF5SzbRqEPtHxSAeND8=/300x225/s.glbimg.com/jo/g1/f/original/2016/11/29/img_3706.jpg",
-      },
-      {
-        key: "5",
-        name: "Tigre de Sumatra",
-        scientificName: "Panthera tigris sumatrae",
-        habitat: "Floresta Montanhosa",
-        image:
-          "https://images.unsplash.com/photo-1561731216-c3a4d99437d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=80",
-      },
-      { key: "6" },
-      { key: "7" },
-      { key: "8" },
-      { key: "9" },
-      { key: "10" },
-      { key: "11" },
-      { key: "12" },
-      { key: "13" },
-    ]);
-    // searchAllAnimals()
-    //   .then((res) => setAnimals(res))
-    //   .catch((error) => console.error(error));
-  }, []);
+    async function loadStorage() {
+      const storedFoundAnimals = await AsyncStorage.getItem("@foundAnimals");
+      if (storedFoundAnimals) setFoundAnimals(JSON.parse(storedFoundAnimals));
+      if (typeof foundAnimals[activeZoo] != "object") createObjectInstance();
+    }
+    getThisFoundAnimals;
+    if (activeZoo != "") {
+      loadStorage();
+      (async () => await fetchAnimals())();
+    }
+  }, [activeZoo]);
 
-  const fetchAnimals = () => {
-    searchAllAnimals()
-      .then((res) => setAnimals(res))
-      .catch((error) => console.error(error));
+  useEffect(() => {
+    if (activeZoo != "" && typeof foundAnimals[activeZoo] == "object") setThisFoundAnimals(foundAnimals[activeZoo]);
+  }, [foundAnimals]);
+
+  const fetchAnimals = async () => {
+    try {
+      const response = await searchAllAnimals(activeZoo);
+      setAnimals(response);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const saveFoundAnimal = async (id) => {
+    let newFoundAnimals = {};
+
+    if (typeof foundAnimals[activeZoo] !== "object") createObjectInstance();
+
+    if (!foundAnimals[activeZoo].includes(id)) {
+      newFoundAnimals = foundAnimals;
+      newFoundAnimals[activeZoo].push(id);
+      setFoundAnimals(newFoundAnimals);
+      await AsyncStorage.setItem("@foundAnimals", JSON.stringify(foundAnimals));
+    }
   };
 
   return (
-    <AnimalContext.Provider value={{ animals, fetchAnimals }}>
+    <AnimalContext.Provider value={{ animals, getThisFoundAnimals, fetchAnimals, saveFoundAnimal }}>
       {children}
     </AnimalContext.Provider>
   );

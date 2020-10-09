@@ -4,7 +4,7 @@ const searchZoo = (id) => {
   return new Promise((resolve, reject) => {
     $api
       .get(`/zoo/${id}`)
-      .catch((error) => console.error(error))
+      .catch((error) => reject(error))
       .then(({ data }) => resolve(data[0]));
   });
 };

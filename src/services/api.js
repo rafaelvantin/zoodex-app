@@ -4,12 +4,12 @@ import AsyncStorage from "@react-native-community/async-storage";
 
 const api = axios.create({
   baseURL: "https://zoodexapi.herokuapp.com/",
-  withCredentials: true,
+  // withCredentials: false,
 });
 
-api.interceptors.request.use(async (config) => {
-  config.headers.zoo_id = await AsyncStorage.getItem("@activeZoo");
-  return config;
-});
+// api.interceptors.request.use(async (config) => {
+//   config.headers.zoo_id = await AsyncStorage.getItem("@activeZoo");
+//   return config;
+// });
 
 export default api;

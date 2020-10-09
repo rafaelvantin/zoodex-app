@@ -7,15 +7,19 @@ import { GiftedChat, Bubble, Send } from "react-native-gifted-chat";
 import { MaterialIcons } from "@expo/vector-icons";
 
 import { UserContext } from "../store/userContext";
+import { ZooContext } from "../store/zooContext";
 
 import io from "socket.io-client";
 
 import BRFormat from "dayjs/locale/pt-br";
 
+const socket = io("http://192.168.0.2:3000");
+
 export default function Chat() {
-  const { getUsername, getUserID, activeZoo } = useContext(UserContext);
+  const { getUsername, getUserID } = useContext(UserContext);
+  const { activeZoo } = useContext(ZooContext);
+
   const [messages, setMessages] = useState([]);
-  const socket = io("http://192.168.0.2:3000");
 
   const renderBubble = (props) => {
     return (
@@ -48,13 +52,13 @@ export default function Chat() {
   };
 
   useEffect(() => {
-    socket.emit("join", { user: getUsername, room: activeZoo });
-
     socket.on("message", (newMessages) => {
       newMessages.map((item) => {
         setMessages((previous) => GiftedChat.append(previous, item));
       });
     });
+
+    socket.emit("join", { name: getUsername, room: activeZoo });
   }, []);
 
   const onSend = (message) => socket.emit("message", message);

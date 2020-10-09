@@ -5,6 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { AnimalStorage } from "./store/animalContext.js";
 import { UserStorage } from "./store/userContext.js";
 import { FeatureStorage } from "./store/featureContext.js";
+import { ZooStorage } from "./store/zooContext.js";
 
 import { AppLoading } from "expo";
 import * as Font from "expo-font";
@@ -36,13 +37,15 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <UserStorage>
-        <AnimalStorage>
-          <FeatureStorage>
-            <Routes />
-          </FeatureStorage>
-        </AnimalStorage>
-      </UserStorage>
+      <ZooStorage>
+        <UserStorage>
+          <AnimalStorage>
+            <FeatureStorage>
+              <Routes />
+            </FeatureStorage>
+          </AnimalStorage>
+        </UserStorage>
+      </ZooStorage>
     </NavigationContainer>
   );
 }

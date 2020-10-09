@@ -2,14 +2,14 @@ import React, { useContext } from "react";
 
 import { View, Text, StyleSheet, FlatList } from "react-native";
 
-import { UserContext } from "../store/userContext";
+import { ZooContext } from "../store/zooContext";
 
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 
 import { LinearGradient } from "expo-linear-gradient";
 
 export default function ZooInfo({ navigation }) {
-  const { getAdditionalInfo } = useContext(UserContext);
+  const { getAdditionalInfo } = useContext(ZooContext);
 
   const info = [
     {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
@@ -14,16 +14,12 @@ const Tab = createBottomTabNavigator();
 
 const homeTabOptions = {
   tabBarLabel: "Início",
-  tabBarIcon: ({ color }) => (
-    <Ionicons name="md-home" size={28} color={color} />
-  ),
+  tabBarIcon: ({ color }) => <Ionicons name="md-home" size={28} color={color} />,
 };
 
 const mapsTabOptions = {
   tabBarLabel: "Chat",
-  tabBarIcon: ({ color }) => (
-    <Ionicons name="md-chatboxes" size={25} color={color} />
-  ),
+  tabBarIcon: ({ color }) => <Ionicons name="md-chatboxes" size={25} color={color} />,
 };
 
 const scanQRTabOptions = {
@@ -41,16 +37,8 @@ const tabBarOptions = {
 
 export default function Tabs() {
   return (
-    <Tab.Navigator
-      initialRouteName="Home"
-      inactiveColor="#CCCDEE"
-      tabBarOptions={tabBarOptions}
-    >
-      <Tab.Screen
-        name="Home"
-        component={HomeStackNavigator}
-        options={homeTabOptions}
-      />
+    <Tab.Navigator initialRouteName="Home" inactiveColor="#CCCDEE" tabBarOptions={tabBarOptions}>
+      <Tab.Screen name="Home" component={HomeStackNavigator} options={homeTabOptions} />
       <Tab.Screen name="QR" component={ScanQR} options={scanQRTabOptions} />
       <Tab.Screen name="Chat" component={Chat} options={mapsTabOptions} />
     </Tab.Navigator>

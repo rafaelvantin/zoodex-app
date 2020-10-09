@@ -1,8 +1,10 @@
 import React, { useState, useContext } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { UserContext } from "../store/userContext";
+import { ZooContext } from "../store/zooContext";
 
 import Icon from "react-native-vector-icons/Ionicons";
+
+import AsyncStorage from "@react-native-community/async-storage";
 
 import { Drawer } from "react-native-paper";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
@@ -10,7 +12,7 @@ import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 export default function DrawerContent(props) {
   const [activeRoute, setActiveRoute] = useState("Home");
 
-  const { leaveZoo } = useContext(UserContext);
+  const { leaveZoo } = useContext(ZooContext);
 
   const tabs = [
     {
@@ -42,9 +44,7 @@ export default function DrawerContent(props) {
           {tabs.map((item) => (
             <DrawerItem
               key={item.routeName}
-              icon={({ color, size }) => (
-                <Icon name={item.icon} color={color} size={size} />
-              )}
+              icon={({ color, size }) => <Icon name={item.icon} color={color} size={size} />}
               activeBackgroundColor="white"
               activeTintColor="#5B8232"
               inactiveTintColor="#fcfcfc"
@@ -59,18 +59,13 @@ export default function DrawerContent(props) {
         </Drawer.Section>
         <Drawer.Section>
           <DrawerItem
-            icon={({ size }) => (
-              <Icon name="md-settings" color="#fcfcfc" size={size} />
-            )}
+            icon={({ size }) => <Icon name="md-settings" color="#fcfcfc" size={size} />}
             activeBackgroundColor="white"
             activeTintColor="#5B8232"
             inactiveTintColor="#fcfcfc"
             focused={activeRoute === "Settings"}
             label="Settings"
-            onPress={() => {
-              setActiveRoute("Settings");
-              props.navigation.navigate("Settings");
-            }}
+            onPress={async () => await AsyncStorage.clear()}
           />
         </Drawer.Section>
       </DrawerContentScrollView>
@@ -79,9 +74,7 @@ export default function DrawerContent(props) {
           label="Leave Zoo"
           onPress={() => leaveZoo()}
           inactiveTintColor="#fcfcfc"
-          icon={({ color, size }) => (
-            <Icon name="md-log-out" color={color} size={size} />
-          )}
+          icon={({ color, size }) => <Icon name="md-log-out" color={color} size={size} />}
         />
       </Drawer.Section>
     </View>

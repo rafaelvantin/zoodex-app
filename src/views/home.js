@@ -1,19 +1,11 @@
 import React, { useState, useContext, useEffect } from "react";
 
-import {
-  View,
-  StyleSheet,
-  FlatList,
-  Image,
-  Text,
-  TouchableHighlight,
-  TextInput,
-} from "react-native";
+import { View, StyleSheet, FlatList, TouchableHighlight } from "react-native";
 
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 
-import { UserContext } from "../store/userContext";
 import { AnimalContext } from "../store/animalContext.js";
+import { ZooContext } from "../store/zooContext.js";
 
 import AnimalItem from "../components/animalItem.js";
 import PrizeAnimal from "../components/prizeAnimal.js";
@@ -21,44 +13,47 @@ import PrizeAnimal from "../components/prizeAnimal.js";
 export default function Home({ navigation }) {
   const [overlayOn, setOverlayOn] = useState(false);
 
-  const { animals } = useContext(AnimalContext);
-  const { foundAnimals } = useContext(UserContext);
+  const { animals, getThisFoundAnimals } = useContext(AnimalContext);
+
+  useEffect(() => {
+    const openScan = navigation.addListener("tabPress", (event) => {
+      event.preventDefault();
+      console.log(event);
+    });
+    return openScan;
+  }, [navigation]);
 
   const listHeaderComponent = (
     <View style={styles.headerContainer}>
       <View style={styles.firstRow}>
-        <Ionicons
-          name="md-menu"
-          size={45}
-          onPress={() => navigation.openDrawer()}
-        />
-        <TouchableHighlight
-          onPress={() => setOverlayOn(true)}
-          underlayColor="transparent"
-        >
+        <Ionicons name="md-menu" size={45} onPress={() => navigation.openDrawer()} />
+        <TouchableHighlight onPress={() => setOverlayOn(true)} underlayColor="transparent">
           <AntDesign name="staro" color="#e5c100" size={42} />
         </TouchableHighlight>
       </View>
     </View>
   );
 
-  const renderAnimalItem = ({ item }) => (
-    <AnimalItem item={item} foundAnimals={foundAnimals} />
-  );
+  const renderAnimalItem = ({ item }) => <AnimalItem item={item} foundAnimals={getThisFoundAnimals} />;
 
-  return (
-    <View style={styles.container}>
+  const renderList = () => {
+    return (
       <View style={styles.listContainer}>
         <FlatList
           ListHeaderComponent={listHeaderComponent}
-          keyExtractor={(item) => item.key}
+          keyExtractor={(item) => item._id}
           data={animals}
           renderItem={renderAnimalItem}
         />
       </View>
-      {overlayOn ? (
-        <PrizeAnimal closeOverlay={() => setOverlayOn(false)} />
-      ) : null}
+    );
+  };
+
+  return (
+    <View style={styles.container}>
+      {animals.length > 0 && typeof getThisFoundAnimals == "object" ? renderList() : <View></View>}
+
+      {overlayOn ? <PrizeAnimal closeOverlay={() => setOverlayOn(false)} /> : null}
     </View>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 
 import {
   View,
@@ -19,8 +19,13 @@ import { FontAwesome } from "@expo/vector-icons";
 import LottieView from "lottie-react-native";
 
 export default function InitialSlides({ navigation }) {
+  const { getUsername, saveUsername } = useContext(UserContext);
+
+  useEffect(() => {
+    if (getUsername != "") navigation.navigate("Home");
+  }, [getUsername]);
+
   const { width, height } = Dimensions.get("window");
-  const { saveUsername } = useContext(UserContext);
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const [input, setInput] = useState("");
@@ -32,17 +37,13 @@ export default function InitialSlides({ navigation }) {
     return (
       <View style={{ backgroundColor: "white", width, height }}>
         <View style={styles.imageContainer}>
-          <Image
-            style={styles.image}
-            source={require("../../assets/nature1.png")}
-          />
+          <Image style={styles.image} source={require("../../assets/nature1.png")} />
         </View>
         <View style={styles.textContainer}>
           <Text style={styles.title}>Bem Vindo.</Text>
           <Text style={styles.text}>
-            O aplicativo Zoodex foca em tornar sua visita ao zoológico mais
-            divertida, permitindo o acesso a dados dos animais e do zoológico de
-            maneira interativa.
+            O aplicativo Zoodex foca em tornar sua visita ao zoológico mais divertida, permitindo o acesso a dados dos
+            animais e do zoológico de maneira interativa.
           </Text>
         </View>
       </View>
@@ -53,17 +54,13 @@ export default function InitialSlides({ navigation }) {
     return (
       <View style={{ backgroundColor: "white", width, height }}>
         <View style={styles.imageContainer}>
-          <LottieView
-            source={require("../../assets/qr-scan.json")}
-            autoPlay
-            loop
-          />
+          <LottieView source={require("../../assets/qr-scan.json")} autoPlay loop />
         </View>
         <View style={styles.textContainer}>
           <Text style={styles.title}>Como Usar.</Text>
           <Text style={styles.text}>
-            Use a câmera do seu celular para scannear o código QR da placa dos
-            animais para adicionar ele na sua coleção.
+            Use a câmera do seu celular para scannear o código QR da placa dos animais para adicionar ele na sua
+            coleção.
           </Text>
         </View>
       </View>
@@ -74,16 +71,12 @@ export default function InitialSlides({ navigation }) {
     return (
       <View style={{ backgroundColor: "white", width, height }}>
         <View style={styles.imageContainer}>
-          <Image
-            style={[styles.image, { height: "96%" }]}
-            source={require("../../assets/chat.png")}
-          />
+          <Image style={[styles.image, { height: "96%" }]} source={require("../../assets/chat.png")} />
         </View>
         <View style={styles.textContainer}>
           <Text style={styles.title}>Use o chat.</Text>
           <Text style={styles.text}>
-            O chat do aplicativo é divido entre os usuários que estão logados
-            naquele zoológico.
+            O chat do aplicativo é divido entre os usuários que estão logados naquele zoológico.
           </Text>
         </View>
       </View>
@@ -92,25 +85,14 @@ export default function InitialSlides({ navigation }) {
 
   const DataTab = () => {
     return (
-      <KeyboardAvoidingView
-        style={{ backgroundColor: "white", width, height }}
-        behavior="padding"
-      >
+      <KeyboardAvoidingView style={{ backgroundColor: "white", width, height }} behavior="padding">
         <View style={styles.imageContainer}>
-          <Image
-            style={styles.image}
-            source={require("../../assets/user.png")}
-          />
+          <Image style={styles.image} source={require("../../assets/user.png")} />
         </View>
         <View style={styles.textContainer}>
           <Text style={styles.title}>Nos conte seu nome.</Text>
           <View style={styles.inputContainer}>
-            <TextInput
-              style={styles.input}
-              maxLength={14}
-              onChangeText={(text) => setInput(text)}
-              value={input}
-            />
+            <TextInput style={styles.input} maxLength={14} onChangeText={(text) => setInput(text)} value={input} />
           </View>
           {error != "" && <Text style={styles.error}>{error}</Text>}
         </View>
@@ -125,9 +107,7 @@ export default function InitialSlides({ navigation }) {
   };
 
   const onScroll = ({ nativeEvent }) => {
-    const slide = Math.ceil(
-      nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width
-    );
+    const slide = Math.ceil(nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width);
     if (currentSlide !== slide) setCurrentSlide(slide);
   };
 
@@ -142,12 +122,7 @@ export default function InitialSlides({ navigation }) {
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
-      <ScrollView
-        pagingEnabled
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        onScroll={onScroll}
-      >
+      <ScrollView pagingEnabled horizontal showsHorizontalScrollIndicator={false} onScroll={onScroll}>
         {WelcomeTab()}
         {ScanTab()}
         {ChatTab()}
@@ -155,12 +130,7 @@ export default function InitialSlides({ navigation }) {
       </ScrollView>
       <View style={styles.pageIndex}>
         {numSlides.map((item, index) => (
-          <Text
-            key={index}
-            style={
-              index == currentSlide ? styles.activeText : styles.inactiveText
-            }
-          >
+          <Text key={index} style={index == currentSlide ? styles.activeText : styles.inactiveText}>
             ⬤
           </Text>
         ))}

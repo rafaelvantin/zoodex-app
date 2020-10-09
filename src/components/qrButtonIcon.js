@@ -11,10 +11,7 @@ export default function QrButtonIcon() {
 
   return (
     <View style={{ position: "absolute", alignItems: "center" }}>
-      <TouchableHighlight
-        style={styles.button}
-        onPress={() => navigation.navigate("QR")}
-      >
+      <TouchableHighlight style={styles.button} onPress={() => navigation.navigate("QR")}>
         <Icon name="md-add" size={39} color="#fff" />
       </TouchableHighlight>
     </View>
@@ -24,6 +21,7 @@ export default function QrButtonIcon() {
 const styles = StyleSheet.create({
   button: {
     backgroundColor: "#27C553",
+    alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",
     width: 62,
