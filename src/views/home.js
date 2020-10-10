@@ -1,14 +1,15 @@
 import React, { useState, useContext, useEffect } from "react";
 
-import { View, StyleSheet, FlatList, TouchableHighlight } from "react-native";
+import { View, StyleSheet, FlatList, TouchableHighlight, ActivityIndicator } from "react-native";
 
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 
 import { AnimalContext } from "../store/animalContext.js";
-import { ZooContext } from "../store/zooContext.js";
 
 import AnimalItem from "../components/animalItem.js";
 import PrizeAnimal from "../components/prizeAnimal.js";
+
+import LottieView from "lottie-react-native";
 
 export default function Home({ navigation }) {
   const [overlayOn, setOverlayOn] = useState(false);
@@ -51,7 +52,11 @@ export default function Home({ navigation }) {
 
   return (
     <View style={styles.container}>
-      {animals.length > 0 && typeof getThisFoundAnimals == "object" ? renderList() : <View></View>}
+      {animals.length > 0 && typeof getThisFoundAnimals == "object" ? (
+        renderList()
+      ) : (
+        <LottieView source={require("../../assets/loader.json")} autoPlay loop />
+      )}
 
       {overlayOn ? <PrizeAnimal closeOverlay={() => setOverlayOn(false)} /> : null}
     </View>

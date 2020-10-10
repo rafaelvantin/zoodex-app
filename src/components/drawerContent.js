@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Image, StyleSheet } from "react-native";
 import { ZooContext } from "../store/zooContext";
 
 import Icon from "react-native-vector-icons/Ionicons";
@@ -16,7 +16,7 @@ export default function DrawerContent(props) {
 
   const tabs = [
     {
-      label: "Home",
+      label: "Início",
       routeName: "Home",
       icon: "md-home",
     },
@@ -26,7 +26,7 @@ export default function DrawerContent(props) {
       icon: "md-trophy",
     },
     {
-      label: "Map",
+      label: "Mapa",
       routeName: "Maps",
       icon: "md-map",
     },
@@ -38,15 +38,18 @@ export default function DrawerContent(props) {
   ];
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#5B8232" }}>
+    <View style={{ flex: 1, backgroundColor: "#008000" }}>
       <DrawerContentScrollView {...props}>
+        {/* <Drawer.Section style={styles.imageContainer}>
+          <Image source={require("../../assets/logo.png")} style={styles.image} />
+        </Drawer.Section> */}
         <Drawer.Section style={styles.drawerSection}>
           {tabs.map((item) => (
             <DrawerItem
               key={item.routeName}
               icon={({ color, size }) => <Icon name={item.icon} color={color} size={size} />}
               activeBackgroundColor="white"
-              activeTintColor="#5B8232"
+              activeTintColor="#008000"
               inactiveTintColor="#fcfcfc"
               focused={item.routeName === activeRoute}
               label={item.label}
@@ -61,7 +64,7 @@ export default function DrawerContent(props) {
           <DrawerItem
             icon={({ size }) => <Icon name="md-settings" color="#fcfcfc" size={size} />}
             activeBackgroundColor="white"
-            activeTintColor="#5B8232"
+            activeTintColor="#008000"
             inactiveTintColor="#fcfcfc"
             focused={activeRoute === "Settings"}
             label="Settings"
@@ -85,5 +88,13 @@ const styles = StyleSheet.create({
   row: {
     flex: 1,
     flexDirection: "row",
+  },
+  imageContainer: {
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  image: {
+    resizeMode: "contain",
+    height: 140,
   },
 });

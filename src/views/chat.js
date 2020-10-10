@@ -22,12 +22,7 @@ export default function Chat() {
   const [messages, setMessages] = useState([]);
 
   const renderBubble = (props) => {
-    return (
-      <Bubble
-        {...props}
-        wrapperStyle={{ right: { backgroundColor: "#7CAA4B" } }}
-      />
-    );
+    return <Bubble {...props} wrapperStyle={{ right: { backgroundColor: "#7CAA4B" } }} />;
   };
 
   const renderSend = (props) => {

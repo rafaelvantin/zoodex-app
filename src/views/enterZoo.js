@@ -4,8 +4,6 @@ import { View, ScrollView, Text, Image, StyleSheet, TouchableHighlight, Dimensio
 
 import { ZooContext } from "../store/zooContext";
 
-import AsyncStorage from "@react-native-community/async-storage";
-
 import ScanZoo from "../components/scanZoo.js";
 import RenderZoos from "../components/renderZoos.js";
 

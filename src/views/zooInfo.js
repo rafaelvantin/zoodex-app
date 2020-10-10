@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import { View, ScrollView, Text, Image, StyleSheet, FlatList, Dimensions } from "react-native";
 
 import { ZooContext } from "../store/zooContext";
 
@@ -8,53 +8,67 @@ import { Ionicons, AntDesign } from "@expo/vector-icons";
 
 import { LinearGradient } from "expo-linear-gradient";
 
-export default function ZooInfo({ navigation }) {
-  const { getAdditionalInfo } = useContext(ZooContext);
+import DrawerIcon from "../components/drawerIcon.js";
 
-  const info = [
-    {
-      title: "História",
-      info:
-        "Criado em 2002, foi pensado visando multiplicar a importância de animais em extinção.",
-    },
-    {
-      title: "Horários de Visita",
-      info:
-        "De segunda a sexta: 8 às 17 horas.\nSábado e Domingo: 9 às 12 horas.",
-    },
-  ];
+const { width, height } = Dimensions.get("window");
 
-  const listHeaderComponent = (
-    <View style={styles.headerContainer}>
-      <View style={styles.firstRow}>
-        <Ionicons
-          name="md-menu"
-          size={45}
-          color="white"
-          onPress={() => navigation.openDrawer()}
-        />
-      </View>
-    </View>
+const Divider = () => {
+  return (
+    <View
+      style={{
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        borderColor: "black",
+        marginBottom: 5,
+        opacity: 0.5,
+      }}
+    />
   );
+};
 
-  const renderInfoItem = ({ item }) => (
-    <View style={styles.cardContainer}>
-      <Text style={styles.cardTitle}>{item.title}.</Text>
-      <Text style={styles.cardInfo}>{item.info}</Text>
+export default function ZooInfo({ navigation }) {
+  const { zooInfo } = useContext(ZooContext);
+
+  const RenderInfoItem = ({ item }) => (
+    <View style={styles.infoContainer}>
+      <Text style={styles.title}>{item.title} ©️</Text>
+      <Text style={styles.info}>{item.info}</Text>
     </View>
   );
 
   return (
-    <View style={styles.container}>
-      <LinearGradient colors={["#19A186", "#F2CF43"]} style={{ flex: 1 }}>
-        <View style={styles.listContainer}>
-          <FlatList
-            ListHeaderComponent={listHeaderComponent}
-            keyExtractor={(item) => item.title}
-            data={info}
-            renderItem={renderInfoItem}
-          />
-        </View>
+    <View style={{ flex: 1, backgroundColor: "white" }}>
+      <DrawerIcon dark={true} />
+      <LinearGradient colors={["#fff", "#fff"]} style={styles.gradient}>
+        <ScrollView style={styles.container}>
+          <View style={styles.card}>
+            <View style={styles.imageContainer}>
+              <View style={styles.imageMask}>
+                <Image style={styles.image} source={{ uri: zooInfo.avatar }} />
+              </View>
+            </View>
+            <Text style={styles.name}>{zooInfo.name}</Text>
+            <View style={styles.infoContainer}>
+              <Text style={styles.title}>Contatos 📞</Text>
+              <Text style={styles.info}>{zooInfo.contacts[0].phone}</Text>
+              <Text style={styles.info}>{zooInfo.contacts[1].phone}</Text>
+            </View>
+            <Divider />
+            <View style={styles.infoContainer}>
+              <Text style={styles.title}>Endereço 🏠</Text>
+              <Text style={styles.info}>
+                {zooInfo.address.city} - {zooInfo.address.state}
+              </Text>
+              <Text style={styles.info}>{zooInfo.address.street}</Text>
+            </View>
+
+            {zooInfo.additionalInfo.map((item, index) => (
+              <View key={index}>
+                <Divider />
+                <RenderInfoItem item={item} />
+              </View>
+            ))}
+          </View>
+        </ScrollView>
       </LinearGradient>
     </View>
   );
@@ -63,46 +77,59 @@ export default function ZooInfo({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fcfcfc",
-    backgroundColor: "#7CAA4B",
   },
-  listContainer: {
-    marginLeft: 8,
-    marginRight: 8,
-  },
-  headerContainer: {
-    flex: 1,
-    justifyContent: "flex-start",
-  },
-  firstRow: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 8,
-  },
-  cardContainer: {
+  card: {
+    marginTop: 10,
+    alignSelf: "center",
     width: "100%",
-    height: 160,
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingTop: 5,
-    marginBottom: 20,
-    backgroundColor: "#fcfcfc",
-    borderRadius: 10,
-    elevation: 1,
+    borderRadius: 30,
   },
-  cardTitle: {
-    fontSize: 30,
-    // color: "#fcfcfc",
-    color: "#0e0e0e",
-    marginBottom: 18,
+  imageContainer: {
+    alignSelf: "center",
+    marginTop: 10,
+    width: "100%",
+    alignItems: "center",
+  },
+  imageMask: {
+    width: 300,
+    height: 300,
+    padding: 20,
+    borderRadius: 40,
+  },
+  image: {
+    flex: 1,
+    opacity: 1,
+    borderRadius: 40,
+    resizeMode: "contain",
+  },
+
+  name: {
     fontFamily: "Montserrat-bold",
+    // color: "white",
+    color: "black",
+    fontSize: 40,
+    alignSelf: "center",
+    marginBottom: 30,
   },
-  cardInfo: {
-    fontSize: 15,
-    // color: "#fcfcfc",
-    color: "#0e0e0e",
+  title: {
+    fontFamily: "Montserrat-bold",
+    // color: "white",
+    color: "black",
+    fontSize: 20,
+    marginBottom: 5,
+  },
+  infoContainer: {
+    marginBottom: 20,
+  },
+  info: {
     fontFamily: "Montserrat-regular",
+    // color: "white",
+    color: "black",
+    fontSize: 14,
+  },
+  gradient: {
+    flex: 1,
+    // borderRadius: 30,
+    paddingHorizontal: 30,
   },
 });

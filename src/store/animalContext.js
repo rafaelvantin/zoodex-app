@@ -26,7 +26,6 @@ export const AnimalStorage = ({ children }) => {
       if (storedFoundAnimals) setFoundAnimals(JSON.parse(storedFoundAnimals));
       if (typeof foundAnimals[activeZoo] != "object") createObjectInstance();
     }
-    getThisFoundAnimals;
     if (activeZoo != "") {
       loadStorage();
       (async () => await fetchAnimals())();
@@ -46,17 +45,22 @@ export const AnimalStorage = ({ children }) => {
     }
   };
 
-  const saveFoundAnimal = async (id) => {
-    let newFoundAnimals = {};
+  const saveFoundAnimal = (id) => {
+    return new Promise(async (resolve, reject) => {
+      let newFoundAnimals = {};
 
-    if (typeof foundAnimals[activeZoo] !== "object") createObjectInstance();
+      if (typeof foundAnimals[activeZoo] !== "object") createObjectInstance();
 
-    if (!foundAnimals[activeZoo].includes(id)) {
-      newFoundAnimals = foundAnimals;
-      newFoundAnimals[activeZoo].push(id);
-      setFoundAnimals(newFoundAnimals);
-      await AsyncStorage.setItem("@foundAnimals", JSON.stringify(foundAnimals));
-    }
+      if (!foundAnimals[activeZoo].includes(id)) {
+        newFoundAnimals = foundAnimals;
+        newFoundAnimals[activeZoo].push(id);
+        setFoundAnimals(newFoundAnimals);
+        await AsyncStorage.setItem("@foundAnimals", JSON.stringify(foundAnimals));
+        resolve();
+      }
+
+      reject();
+    });
   };
 
   return (

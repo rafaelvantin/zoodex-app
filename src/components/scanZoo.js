@@ -1,16 +1,18 @@
 import React, { useState, useContext, useEffect } from "react";
 
-import { View, TouchableHighlight, StyleSheet, Text, Dimensions } from "react-native";
+import { View, TouchableHighlight, StyleSheet, Dimensions, Alert, ActivityIndicator } from "react-native";
 
 import { BarCodeScanner } from "expo-barcode-scanner";
 
 import { Ionicons } from "@expo/vector-icons";
 
+import { searchZoo } from "../services/zoo";
+
 import { ZooContext } from "../store/zooContext";
 
 export default function PrizeAnimal({ closeOverlay }) {
   const [hasPermission, setHasPermission] = useState(null);
-  const [scannedData, setScannedData] = useState(null);
+  const [scannedData, setScannedData] = useState("");
 
   const { width, height } = Dimensions.get("window");
 
@@ -26,23 +28,38 @@ export default function PrizeAnimal({ closeOverlay }) {
 
   const onRead = ({ data }) => {
     setScannedData(data);
+    searchZoo(data.substring(9))
+      .then((res) => {
+        if (res._id != "") return saveNewZoo(data.substring(9)).then(() => closeOverlay());
+        Alert.alert("Erro", "Zoológico não encontrado", [{ text: "Ok", onPress: () => closeOverlay() }]);
+      })
+      .catch(() => Alert.alert("Erro", "Erro no scan", [{ text: "Ok", onPress: () => closeOverlay() }]));
     //zoodex://
-    console.log(data.substring(9));
-    saveNewZoo(data.substring(9)).then(() => closeOverlay());
+    //COLOCAR UM ALERTAR COM INDICADOR DE ATIVIDADE
   };
 
   return (
     <View style={styles.overlayContainer}>
-      <TouchableHighlight style={styles.closeOverlayIcon} onPress={() => closeOverlay()} underlayColor="transparent">
-        <Ionicons name="md-close" size={50} color="white" />
-      </TouchableHighlight>
-      <View style={styles.overlayCard}>
-        <BarCodeScanner
-          onBarCodeScanned={scannedData ? undefined : onRead}
-          barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
-          style={StyleSheet.absoluteFill}
-        />
-      </View>
+      {scannedData == "" ? (
+        <>
+          <TouchableHighlight
+            style={styles.closeOverlayIcon}
+            onPress={() => closeOverlay()}
+            underlayColor="transparent"
+          >
+            <Ionicons name="md-close" size={50} color="white" />
+          </TouchableHighlight>
+          <View style={styles.overlayCard}>
+            <BarCodeScanner
+              onBarCodeScanned={scannedData ? undefined : onRead}
+              barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
+              style={StyleSheet.absoluteFill}
+            />
+          </View>
+        </>
+      ) : (
+        <ActivityIndicator color="white" size="large" />
+      )}
     </View>
   );
 }

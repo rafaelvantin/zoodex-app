@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, FlatList, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
+import DrawerIcon from "../components/drawerIcon.js";
 
 export default function Ranking({ navigation }) {
   const animals = [
@@ -33,8 +34,7 @@ export default function Ranking({ navigation }) {
     {
       name: "Camelo",
       likes: 11,
-      image:
-        "https://super.abril.com.br/wp-content/uploads/2018/07/camelo_competencias_experiencia_habilidade.jpg",
+      image: "https://super.abril.com.br/wp-content/uploads/2018/07/camelo_competencias_experiencia_habilidade.jpg",
       times: 100,
       id: "20",
     },
@@ -49,8 +49,7 @@ export default function Ranking({ navigation }) {
     {
       name: "Babuíno",
       likes: 20,
-      image:
-        "https://veja.abril.com.br/wp-content/uploads/2017/01/babuino-guine-20110830-007.jpg",
+      image: "https://veja.abril.com.br/wp-content/uploads/2017/01/babuino-guine-20110830-007.jpg",
       times: 100,
       id: "16",
     },
@@ -72,8 +71,7 @@ export default function Ranking({ navigation }) {
     {
       name: "Flamingo",
       likes: 70,
-      image:
-        "https://upload.wikimedia.org/wikipedia/commons/6/68/Lightmatter_flamingo2.jpg",
+      image: "https://upload.wikimedia.org/wikipedia/commons/6/68/Lightmatter_flamingo2.jpg",
       times: 990,
       id: "66",
     },
@@ -96,19 +94,8 @@ export default function Ranking({ navigation }) {
 
   const listHeaderComponent = (
     <View style={styles.headerContainer}>
-      <LinearGradient
-        colors={["#19A186", "#F2CF43"]}
-        style={styles.linearGradient}
-      >
-        <View style={styles.menuIcon}>
-          <Ionicons
-            name="md-menu"
-            size={45}
-            color="white"
-            onPress={() => navigation.openDrawer()}
-          />
-        </View>
-
+      <DrawerIcon />
+      <LinearGradient colors={["#19A186", "#F2CF43"]} style={styles.linearGradient}>
         <Text style={styles.title}>RANK</Text>
 
         <View style={styles.columns}>
@@ -170,11 +157,6 @@ const styles = StyleSheet.create({
   },
   linearGradient: {
     flex: 1,
-  },
-  menuIcon: {
-    position: "absolute",
-    left: 5,
-    top: 5,
   },
   title: {
     marginTop: 120,

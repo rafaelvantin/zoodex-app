@@ -1,6 +1,15 @@
 import React, { useState, useContext, useEffect } from "react";
 
-import { View, ScrollView, Text, TouchableHighlight, Image, StyleSheet, Dimensions } from "react-native";
+import {
+  View,
+  ScrollView,
+  Text,
+  TouchableHighlight,
+  Image,
+  StyleSheet,
+  Dimensions,
+  ActivityIndicator,
+} from "react-native";
 
 import { ZooContext } from "../store/zooContext";
 
@@ -59,9 +68,11 @@ export default function RenderZoos() {
   return (
     <View style={{ flex: 1 }}>
       <ScrollView pagingEnabled horizontal showsHorizontalScrollIndicator={false} onScroll={onScroll}>
-        {zoos.map((item) => (
-          <RenderZooItem key={item.name} item={item} />
-        ))}
+        {zoos.length > 0 ? (
+          zoos.map((item) => <RenderZooItem key={item.name} item={item} />)
+        ) : (
+          <ActivityIndicator style={styles.animation} color="#1e1e1e" size="large" />
+        )}
       </ScrollView>
       <View style={styles.pageIndex}>
         {numSlides.length > 0 &&
@@ -80,6 +91,10 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 140,
     marginBottom: 40,
+  },
+  animation: {
+    width: width,
+    height: height,
   },
   imageContainer: {
     marginTop: 40,

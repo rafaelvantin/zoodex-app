@@ -20,11 +20,11 @@ export const ZooStorage = ({ children }) => {
       if (storedFoundZoos) setFoundZoos(JSON.parse(storedFoundZoos));
     }
     loadStorage();
-    // fetchZooInfo(activeZoo);
+    if (activeZoo) (async () => await setZooInfo(fetchZooInfo(activeZoo)))();
   }, []);
 
   useEffect(() => {
-    if (activeZoo != "") (async () => setZooInfo(fetchZooInfo(activeZoo)))();
+    if (activeZoo != "") (async () => setZooInfo(await fetchZooInfo(activeZoo)))();
   }, [activeZoo]);
 
   const saveActiveZoo = async (id) => {
@@ -39,14 +39,11 @@ export const ZooStorage = ({ children }) => {
 
   const fetchZooInfo = async (id) => {
     try {
-      const zoo = await searchZoo(id);
-      return zoo;
+      return await searchZoo(id);
     } catch {
       return null;
     }
   };
-
-  const getAdditionalInfo = () => zooInfo.additionalInfo;
 
   const leaveZoo = async () => {
     await AsyncStorage.removeItem("@activeZoo");
@@ -63,7 +60,6 @@ export const ZooStorage = ({ children }) => {
         zooInfo,
         fetchZooInfo,
         leaveZoo,
-        getAdditionalInfo,
       }}
     >
       {children}

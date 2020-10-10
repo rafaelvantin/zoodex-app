@@ -4,8 +4,8 @@ const searchAnimalById = (id, zooId) => {
   return new Promise((resolve, reject) => {
     $api
       .get(`/animals/${id}`, { headers: { zoo_id: zooId } })
-      .catch((error) => console.error(error))
-      .then(({ data }) => resolve(data.animal));
+      .catch((error) => reject(error))
+      .then(({ data }) => resolve(data));
   });
 };
 

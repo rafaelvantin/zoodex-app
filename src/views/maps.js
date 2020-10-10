@@ -6,6 +6,8 @@ import { Ionicons } from "@expo/vector-icons";
 
 import ZoomableView from "@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView";
 
+import DrawerIcon from "../components/drawerIcon.js";
+
 export default function Maps({ navigation }) {
   return (
     <View style={{ flex: 1 }}>
@@ -26,9 +28,7 @@ export default function Maps({ navigation }) {
           />
         </ZoomableView>
       </View>
-      <View style={styles.menuIcon}>
-        <Ionicons name="md-menu" size={45} color="black" onPress={() => navigation.openDrawer()} />
-      </View>
+      <DrawerIcon dark="true" />
     </View>
   );
 }
