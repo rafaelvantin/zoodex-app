@@ -14,7 +14,7 @@ export const ZooStorage = ({ children }) => {
   useEffect(() => {
     async function loadStorage() {
       const storedActiveZoo = await AsyncStorage.getItem("@activeZoo");
-      const storedFoundZoos = await AsyncStorage.getItem("@foundZoos");
+      const storedFoundZoos = await AsyncStorage.getItem("@foundZoo");
 
       if (storedActiveZoo) setActiveZoo(storedActiveZoo);
       if (storedFoundZoos) setFoundZoos(JSON.parse(storedFoundZoos));
@@ -34,7 +34,8 @@ export const ZooStorage = ({ children }) => {
 
   const saveNewZoo = async (id) => {
     setFoundZoos([...foundZoos, id]);
-    await AsyncStorage.setItem("@foundZoos", JSON.stringify(foundZoos));
+    const newFoundZoos = [...foundZoos, id];
+    await AsyncStorage.setItem("@foundZoo", JSON.stringify(newFoundZoos));
   };
 
   const fetchZooInfo = async (id) => {

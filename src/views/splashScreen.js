@@ -50,13 +50,13 @@ const LogoTransform = () => {
             {
               scaleX: fadeAnim.interpolate({
                 inputRange: [0, 1],
-                outputRange: [1.3, 1.35],
+                outputRange: [1.0, 1.1],
               }),
             },
             {
               scaleY: fadeAnim.interpolate({
                 inputRange: [0, 1],
-                outputRange: [1.3, 1.35],
+                outputRange: [1.0, 1.1],
               }),
             },
           ],
@@ -70,7 +70,7 @@ export default function EnterZoo({ navigation }) {
   const { getUsername } = useContext(UserContext);
   const [loadHome, setLoadHome] = useState(false);
 
-  setTimeout(() => setLoadHome(true), 1150);
+  setTimeout(() => setLoadHome(true), 1150  );
 
   useEffect(() => {
     if (loadHome) getUsername != "" ? navigation.navigate("Home") : navigation.navigate("InitialSlides");
@@ -78,10 +78,10 @@ export default function EnterZoo({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <LogoFade style={styles.logoContainer}>
+      {/* <LogoFade style={styles.logoContainer}> */}
         <LogoTransform />
-      </LogoFade>
-      <LogoFade style={styles.textContainer}>
+      {/* </LogoFade> */}
+      {/* <LogoFade style={styles.textContainer}>
         <Text style={styles.headline}>Em parceria com</Text>
         <View style={{ flexDirection: "row", justifyContent: "center" }}>
           <View style={styles.imageContainer}>
@@ -91,7 +91,7 @@ export default function EnterZoo({ navigation }) {
             <Image style={styles.ctiImage} source={require("../../assets/cti.png")} />
           </View>
         </View>
-      </LogoFade>
+      </LogoFade> */}
     </View>
   );
 }
@@ -99,7 +99,7 @@ export default function EnterZoo({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: "#008000",
     alignItems: "center",
   },
   logoContainer: {
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   image: {
-    height: "100%",
+    height: "90%",
     resizeMode: "contain",
   },
   textContainer: {

@@ -13,7 +13,7 @@ import io from "socket.io-client";
 
 import BRFormat from "dayjs/locale/pt-br";
 
-const socket = io("http://192.168.0.2:3000");
+const socket = io("https://zoodex-chat.herokuapp.com/");
 
 export default function Chat() {
   const { getUsername, getUserID } = useContext(UserContext);
@@ -24,7 +24,7 @@ export default function Chat() {
   const renderBubble = (props) => {
     return <Bubble {...props} wrapperStyle={{ right: { backgroundColor: "#7CAA4B" } }} />;
   };
-
+  
   const renderSend = (props) => {
     return (
       <Send {...props}>
@@ -39,7 +39,7 @@ export default function Chat() {
             marginBottom: 5,
             marginRight: 5,
           }}
-        >
+          >
           <MaterialIcons name="send" color="white" size={20} />
         </View>
       </Send>
@@ -47,6 +47,7 @@ export default function Chat() {
   };
 
   useEffect(() => {
+
     socket.on("message", (newMessages) => {
       newMessages.map((item) => {
         setMessages((previous) => GiftedChat.append(previous, item));

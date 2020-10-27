@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useContext, useState } from "react";
 
 import {
   View,
@@ -10,10 +10,19 @@ import {
 
 import { useNavigation } from "@react-navigation/native";
 
+import { AnimalContext } from "../store/animalContext.js";
+
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
-export default function AnimalItem({ item, foundAnimals }) {
-  const isAnimalDiscovered = foundAnimals.includes(item.key);
+export default function AnimalItem({ item }) {
+
+  const { foundAnimals, getThisFoundAnimals } = useContext(AnimalContext);
+
+  const [isAnimalDiscovered, setIsAnimalDiscovered] = useState(false);
+
+  useEffect(() => {
+    if(getThisFoundAnimals().includes(item._id)) setIsAnimalDiscovered(true);
+  }, [foundAnimals]);
 
   const navigation = useNavigation();
 

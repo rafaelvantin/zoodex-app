@@ -14,15 +14,7 @@ import LottieView from "lottie-react-native";
 export default function Home({ navigation }) {
   const [overlayOn, setOverlayOn] = useState(false);
 
-  const { animals, getThisFoundAnimals } = useContext(AnimalContext);
-
-  useEffect(() => {
-    const openScan = navigation.addListener("tabPress", (event) => {
-      event.preventDefault();
-      console.log(event);
-    });
-    return openScan;
-  }, [navigation]);
+  const { animals } = useContext(AnimalContext);
 
   const listHeaderComponent = (
     <View style={styles.headerContainer}>
@@ -35,7 +27,7 @@ export default function Home({ navigation }) {
     </View>
   );
 
-  const renderAnimalItem = ({ item }) => <AnimalItem item={item} foundAnimals={getThisFoundAnimals} />;
+  const renderAnimalItem = ({ item }) => <AnimalItem item={item} />;
 
   const renderList = () => {
     return (
@@ -52,7 +44,7 @@ export default function Home({ navigation }) {
 
   return (
     <View style={styles.container}>
-      {animals.length > 0 && typeof getThisFoundAnimals == "object" ? (
+      {animals.length > 0 ? (
         renderList()
       ) : (
         <LottieView source={require("../../assets/loader.json")} autoPlay loop />

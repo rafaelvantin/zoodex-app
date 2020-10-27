@@ -11,7 +11,6 @@ export const AnimalContext = createContext([]);
 export const AnimalStorage = ({ children }) => {
   const [animals, setAnimals] = useState([]);
   const [foundAnimals, setFoundAnimals] = useState({});
-  const [getThisFoundAnimals, setThisFoundAnimals] = useState([]);
   const { activeZoo } = useContext(ZooContext);
 
   const createObjectInstance = () => {
@@ -20,10 +19,14 @@ export const AnimalStorage = ({ children }) => {
     setFoundAnimals(newFoundAnimals);
   };
 
+  const getThisFoundAnimals = () => {
+    if (activeZoo != "" && typeof foundAnimals[activeZoo] == "object") return foundAnimals[activeZoo];
+    return null;
+  }
+
   useEffect(() => {
     async function loadStorage() {
-      const storedFoundAnimals = await AsyncStorage.getItem("@foundAnimals");
-      if (storedFoundAnimals) setFoundAnimals(JSON.parse(storedFoundAnimals));
+      AsyncStorage.getItem("@foundAnimals").then((value) => value != null && setFoundAnimals(JSON.parse(value)));
       if (typeof foundAnimals[activeZoo] != "object") createObjectInstance();
     }
     if (activeZoo != "") {
@@ -31,10 +34,6 @@ export const AnimalStorage = ({ children }) => {
       (async () => await fetchAnimals())();
     }
   }, [activeZoo]);
-
-  useEffect(() => {
-    if (activeZoo != "" && typeof foundAnimals[activeZoo] == "object") setThisFoundAnimals(foundAnimals[activeZoo]);
-  }, [foundAnimals]);
 
   const fetchAnimals = async () => {
     try {
@@ -55,7 +54,9 @@ export const AnimalStorage = ({ children }) => {
         newFoundAnimals = foundAnimals;
         newFoundAnimals[activeZoo].push(id);
         setFoundAnimals(newFoundAnimals);
-        await AsyncStorage.setItem("@foundAnimals", JSON.stringify(foundAnimals));
+        // console.log("INSIDE SAVE FOUND ANIMAL");
+        // console.log(newFoundAnimals);
+        await AsyncStorage.setItem("@foundAnimals", JSON.stringify(newFoundAnimals));
         resolve();
       }
 
@@ -64,7 +65,7 @@ export const AnimalStorage = ({ children }) => {
   };
 
   return (
-    <AnimalContext.Provider value={{ animals, getThisFoundAnimals, fetchAnimals, saveFoundAnimal }}>
+    <AnimalContext.Provider value={{ animals, foundAnimals, getThisFoundAnimals, fetchAnimals, saveFoundAnimal }}>
       {children}
     </AnimalContext.Provider>
   );

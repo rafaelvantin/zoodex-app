@@ -27,11 +27,14 @@ export default function RenderZoos() {
 
   const { foundZoos, fetchZooInfo, saveActiveZoo } = useContext(ZooContext);
 
-  useEffect(() => {
+  const loadZoos = () => {
     setNumSlides([]);
     for (let i = 0; i < foundZoos.length; i++) setNumSlides([...numSlides, i]);
     foundZoos.map(async (item) => setZoos([...zoos, await fetchZooInfo(item)]));
-  }, [foundZoos]);
+  };
+
+  useEffect(() => loadZoos(), [foundZoos]);
+  
 
   const onScroll = ({ nativeEvent }) => {
     const slide = Math.ceil(nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width);

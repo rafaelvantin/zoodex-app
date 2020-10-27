@@ -9,4 +9,13 @@ const searchZoo = (id) => {
   });
 };
 
-export { searchZoo };
+const validateZoo = (id) => {
+  return new Promise((resolve, reject) => {
+    $api
+      .get(`/user/zoo/${id}`)
+      .catch((error) => reject(error))
+      .then(() => resolve());
+  });
+};
+
+export { searchZoo, validateZoo };

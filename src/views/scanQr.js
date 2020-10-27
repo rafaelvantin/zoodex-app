@@ -7,7 +7,7 @@ import { View, StyleSheet, ActivityIndicator, Alert } from "react-native";
 import { AnimalContext } from "../store/animalContext";
 import { ZooContext } from "../store/zooContext";
 
-import { searchAnimalById } from "../services/animals";
+import { validateAnimal } from "../services/animals";
 
 import AsyncStorage from "@react-native-community/async-storage";
 
@@ -25,17 +25,15 @@ export default function ScanQR({ navigation }) {
     }
     checkPermission();
   }, []);
-
+  
   const onRead = ({ data }) => {
     setScannedData(data);
-    //zoodex://
-    console.log(data.substring(9));
-    searchAnimalById(data.substring(9), activeZoo)
-      .catch(() => Alert.alert("Erro", "Erro no scan", [{ text: "Ok", onPress: () => setScannedData("") }]))
-      .then((res) => {
-        if (res._id != "") return saveFoundAnimal(data.substring(9)).then(() => closeOverlay());
-        Alert.alert("Erro", "Animal não encontrado", [{ text: "Ok", onPress: () => setScannedData("") }]);
-      });
+    validateAnimal(data.substring(9), activeZoo)
+    .then(() => {
+      setScannedData("");
+      saveFoundAnimal(data.substring(9)).then(() => navigation.navigate("Animal"));
+    })
+    .catch(({ response }) => Alert.alert("Erro no Scan!", response.data.valid === false ? response.data.error : "Erro no scan", [{ text: "Ok", onPress: () => setScannedData("") }]));
   };
 
   return (

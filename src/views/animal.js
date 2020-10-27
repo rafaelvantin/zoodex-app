@@ -16,7 +16,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import LottieView from "lottie-react-native";
 
 export default function Animal({ route, navigation }) {
-  const { animalId } = route.params;
+  // const { animalId } = route.params;
 
   const [userLiked, setUserLiked] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
@@ -87,7 +87,7 @@ export default function Animal({ route, navigation }) {
             </View>
           </View>
 
-          <View style={styles.sidebar}>
+          {/* <View style={styles.sidebar}>
             <View style={styles.likesContainer}>
               {userLiked ? (
                 <AntDesign
@@ -110,11 +110,12 @@ export default function Animal({ route, navigation }) {
               <Ionicons name="md-share" color="#fff" size={30} />
               <Text style={styles.count}>Share</Text>
             </View>
-          </View>
+          </View> */}
 
           <View style={styles.bookContainer}>
             <TouchableHighlight
-              onPress={() => setShowInfo(!showInfo)}
+              // onPress={() => setShowInfo(!showInfo)}
+              onPress={() => navigation.navigate("AnimalInfo")}
               underlayColor="transparent"
               style={{ flex: 1 }}
             >

@@ -6,7 +6,7 @@ import { BarCodeScanner } from "expo-barcode-scanner";
 
 import { Ionicons } from "@expo/vector-icons";
 
-import { searchZoo } from "../services/zoo";
+import { validateZoo } from "../services/zoo";
 
 import { ZooContext } from "../store/zooContext";
 
@@ -28,14 +28,9 @@ export default function PrizeAnimal({ closeOverlay }) {
 
   const onRead = ({ data }) => {
     setScannedData(data);
-    searchZoo(data.substring(9))
-      .then((res) => {
-        if (res._id != "") return saveNewZoo(data.substring(9)).then(() => closeOverlay());
-        Alert.alert("Erro", "Zoológico não encontrado", [{ text: "Ok", onPress: () => closeOverlay() }]);
-      })
-      .catch(() => Alert.alert("Erro", "Erro no scan", [{ text: "Ok", onPress: () => closeOverlay() }]));
-    //zoodex://
-    //COLOCAR UM ALERTAR COM INDICADOR DE ATIVIDADE
+    validateZoo(data.substring(9))
+      .then(() => saveNewZoo(data.substring(9)).then(() => closeOverlay()))
+      .catch(({ response }) => Alert.alert("Erro no Scan!", response.data.valid === false ? response.data.error : "Erro no scan", [{ text: "Ok", onPress: () => closeOverlay() }]));
   };
 
   return (
