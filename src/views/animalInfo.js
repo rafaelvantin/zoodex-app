@@ -4,11 +4,15 @@ import {
   View,
   StyleSheet,
   Image,
+  ImageBackground,
   Text,
   TouchableHighlight,
+  Dimensions
 } from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
+
+const { width, height } = Dimensions.get("window");
 
 export default function Animal({ navigation }) {
 
@@ -43,7 +47,7 @@ export default function Animal({ navigation }) {
     },
   ];
 
-  return (
+  return ( 
     <View style={styles.container}>
         <View style={styles.backIconContainer}>
             <TouchableHighlight
@@ -55,7 +59,7 @@ export default function Animal({ navigation }) {
         </View>
 
         <Image
-        source={require("../../assets/notebook.png")}
+        source={require("../../assets/notebookBG.png")}
         style={styles.image}
         />
 
@@ -63,10 +67,10 @@ export default function Animal({ navigation }) {
           <View style={styles.infoContainer}>
             {animalInfo.map((item) => (
               <View style={styles.infoRowContainer} key={item.type}>
-                <Text style={styles.infoText}>{item.value}</Text>
-                <Text style={styles.infoType}>{item.type}</Text>
-              </View>
-            ))}
+                  <Text style={styles.infoText}>{item.value}</Text>
+                  <Text style={styles.infoType}>{item.type}</Text>
+                </View>
+              ))}
           </View>
         </View>
     </View>
@@ -86,7 +90,8 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   image: {
-    height: "100%",
+    opacity: 0.3,
+    height: "110%",
     width: "100%",
     resizeMode: "cover",
   },
@@ -115,11 +120,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   infoType: {
-    fontSize: 10,
-    opacity: 0.6,
+    fontSize: 12,
+    opacity: 0.7,
   },
   infoText: {
     fontWeight: "bold",
-    fontSize: 20,
+    fontSize: 22,
   },
 });

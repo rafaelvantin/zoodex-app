@@ -8,6 +8,7 @@ import { AnimalContext } from "../store/animalContext.js";
 
 import AnimalItem from "../components/animalItem.js";
 import PrizeAnimal from "../components/prizeAnimal.js";
+import DrawerIcon from "../components/drawerIcon.js";
 
 import LottieView from "lottie-react-native";
 
@@ -20,9 +21,9 @@ export default function Home({ navigation }) {
     <View style={styles.headerContainer}>
       <View style={styles.firstRow}>
         <Ionicons name="md-menu" size={45} onPress={() => navigation.openDrawer()} />
-        <TouchableHighlight onPress={() => setOverlayOn(true)} underlayColor="transparent">
+        {/* <TouchableHighlight onPress={() => setOverlayOn(true)} underlayColor="transparent">
           <AntDesign name="staro" color="#e5c100" size={42} />
-        </TouchableHighlight>
+        </TouchableHighlight> */}
       </View>
     </View>
   );
@@ -47,7 +48,10 @@ export default function Home({ navigation }) {
       {animals.length > 0 ? (
         renderList()
       ) : (
-        <LottieView source={require("../../assets/loader.json")} autoPlay loop />
+        <>
+          <DrawerIcon dark="true" />
+          <LottieView source={require("../../assets/loader.json")} autoPlay loop />
+        </>
       )}
 
       {overlayOn ? <PrizeAnimal closeOverlay={() => setOverlayOn(false)} /> : null}

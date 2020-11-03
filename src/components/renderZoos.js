@@ -23,6 +23,8 @@ export default function RenderZoos() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [numSlides, setNumSlides] = useState([]);
   const [zoos, setZoos] = useState([]);
+  const [showInfo, setShowInfo] = useState(false);
+
   const navigation = useNavigation();
 
   const { foundZoos, fetchZooInfo, saveActiveZoo } = useContext(ZooContext);
@@ -31,6 +33,7 @@ export default function RenderZoos() {
     setNumSlides([]);
     for (let i = 0; i < foundZoos.length; i++) setNumSlides([...numSlides, i]);
     foundZoos.map(async (item) => setZoos([...zoos, await fetchZooInfo(item)]));
+    if(zoos.length > 0) setShowInfo(true);
   };
 
   useEffect(() => loadZoos(), [foundZoos]);
@@ -72,7 +75,7 @@ export default function RenderZoos() {
     <View style={{ flex: 1 }}>
       <ScrollView pagingEnabled horizontal showsHorizontalScrollIndicator={false} onScroll={onScroll}>
         {zoos.length > 0 ? (
-          zoos.map((item) => <RenderZooItem key={item.name} item={item} />)
+          zoos.map((item, index) => item ? <RenderZooItem key={index} item={item} /> : <ActivityIndicator key={index} style={styles.animation} color="#1e1e1e" size="large" />)
         ) : (
           <ActivityIndicator style={styles.animation} color="#1e1e1e" size="large" />
         )}

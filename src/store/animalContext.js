@@ -2,7 +2,7 @@ import React, { createContext, useEffect, useState, useContext } from "react";
 
 import AsyncStorage from "@react-native-community/async-storage";
 
-import { searchAllAnimals } from "../services/animals";
+import { searchAllAnimals, capturedAnimal } from "../services/animals";
 
 import { ZooContext } from "./zooContext";
 
@@ -51,16 +51,15 @@ export const AnimalStorage = ({ children }) => {
       if (typeof foundAnimals[activeZoo] !== "object") createObjectInstance();
 
       if (!foundAnimals[activeZoo].includes(id)) {
-        newFoundAnimals = foundAnimals;
-        newFoundAnimals[activeZoo].push(id);
-        setFoundAnimals(newFoundAnimals);
-        // console.log("INSIDE SAVE FOUND ANIMAL");
-        // console.log(newFoundAnimals);
-        await AsyncStorage.setItem("@foundAnimals", JSON.stringify(newFoundAnimals));
-        resolve();
+        capturedAnimal(id, activeZoo).then(async () => {
+          newFoundAnimals = foundAnimals;
+          newFoundAnimals[activeZoo].push(id);
+          setFoundAnimals(newFoundAnimals);
+          await AsyncStorage.setItem("@foundAnimals", JSON.stringify(newFoundAnimals));
+        }).catch(() => reject());
       }
-
-      reject();
+      
+      resolve();
     });
   };
 

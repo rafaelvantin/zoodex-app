@@ -50,7 +50,7 @@ export default function ZooInfo({ navigation }) {
             <View style={styles.infoContainer}>
               <Text style={styles.title}>Contatos 📞</Text>
               <Text style={styles.info}>{zooInfo.contacts[0].phone}</Text>
-              <Text style={styles.info}>{zooInfo.contacts[1].phone}</Text>
+              { zooInfo.contacts[1] && <Text style={styles.info}>{zooInfo.contacts[1].phone}</Text>}
             </View>
             <Divider />
             <View style={styles.infoContainer}>
@@ -61,7 +61,7 @@ export default function ZooInfo({ navigation }) {
               <Text style={styles.info}>{zooInfo.address.street}</Text>
             </View>
 
-            {zooInfo.additionalInfo.map((item, index) => (
+            {zooInfo.additionalInfo.length > 0 && zooInfo.additionalInfo.map((item, index) => (
               <View key={index}>
                 <Divider />
                 <RenderInfoItem item={item} />

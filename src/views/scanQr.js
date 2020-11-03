@@ -27,13 +27,15 @@ export default function ScanQR({ navigation }) {
   }, []);
   
   const onRead = ({ data }) => {
+    const id = data.substring(9);
     setScannedData(data);
-    validateAnimal(data.substring(9), activeZoo)
+    validateAnimal(id, activeZoo)
     .then(() => {
       setScannedData("");
-      saveFoundAnimal(data.substring(9)).then(() => navigation.navigate("Animal"));
+      saveFoundAnimal(id).then(() => navigation.navigate("Animal"))
+      .catch(() => Alert.alert("Erro", "Erro na hora de salvar o animal", [{ text: "Ok", onPress: () => setScannedData("") }]));
     })
-    .catch(({ response }) => Alert.alert("Erro no Scan!", response.data.valid === false ? response.data.error : "Erro no scan", [{ text: "Ok", onPress: () => setScannedData("") }]));
+    .catch(({ response }) => Alert.alert("Erro", response.data.valid === false ? response.data.error : "Erro no scan", [{ text: "Ok", onPress: () => setScannedData("") }]));
   };
 
   return (

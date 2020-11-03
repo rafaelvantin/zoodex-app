@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import {
   View,
@@ -15,8 +15,16 @@ import { LinearGradient } from "expo-linear-gradient";
 
 import LottieView from "lottie-react-native";
 
+import searchAnimalById from "../services/animals";
+
 export default function Animal({ route, navigation }) {
   // const { animalId } = route.params;
+  // const [animal, setAnimal] = useState({});
+
+  // useEffect(() => {
+  //   if(animalId == null) return;
+  //   searchAnimalById(animalId).then((res) => setAnimal(res));
+  // }, []);
 
   const [userLiked, setUserLiked] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
@@ -82,7 +90,7 @@ export default function Animal({ route, navigation }) {
           <View style={styles.footer}>
             <Text style={styles.name}>{animal.name}</Text>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Ionicons name="md-trophy" color="#d67400" size={28} />
+              <Ionicons name="md-people" color="#43adfb" size={28} />
               <Text style={styles.position}>{animal.position}</Text>
             </View>
           </View>
@@ -130,7 +138,7 @@ export default function Animal({ route, navigation }) {
         </LinearGradient>
       </View>
 
-      {showInfo ? (
+      {/* {showInfo ? (
         <View style={styles.notebookContainer}>
           <Image
             source={require("../../assets/notebook.png")}
@@ -146,7 +154,7 @@ export default function Animal({ route, navigation }) {
             ))}
           </View>
         </View>
-      ) : null}
+      ) : null} */}
     </View>
   );
 }

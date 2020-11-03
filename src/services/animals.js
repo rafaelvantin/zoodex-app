@@ -27,4 +27,13 @@ const validateAnimal = (id, zooId) => {
   });
 };
 
-export { searchAllAnimals, searchAnimalById, validateAnimal };
+const capturedAnimal = (id, zooId) => {
+  return new Promise((resolve, reject) => {
+    $api
+      .post(`/user/animal/${id}`, { headers: { zoo_id: zooId } })
+      .catch((error) => reject(error))
+      .then(() => resolve());
+  });
+};
+
+export { searchAllAnimals, searchAnimalById, validateAnimal, capturedAnimal };

@@ -10,7 +10,7 @@ const Stack = createStackNavigator();
 
 export default function HomeStackNavigator() {
 	return (
-		<Stack.Navigator headerMode="none" initialRouteName="Home">
+		<Stack.Navigator headerMode="none" initialRouteName="Animal">
 			<Stack.Screen name="Home" component={Home} />
 			<Stack.Screen name="Animal" component={Animal} />
 			<Stack.Screen name="AnimalInfo" component={AnimalInfo} />
