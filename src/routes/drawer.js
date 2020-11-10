@@ -5,6 +5,7 @@ import Tabs from "./tabs.js";
 import Ranking from "../views/ranking.js";
 import ZooInfo from "../views/zooInfo.js";
 import Maps from "../views/maps.js";
+import AboutUs from "../views/aboutUs.js";
 
 import DrawerContent from "../components/drawerContent.js";
 
@@ -20,6 +21,7 @@ export default function Drawer() {
       <DrawerInstance.Screen name="Ranking" component={Ranking} />
       <DrawerInstance.Screen name="ZooInfo" component={ZooInfo} />
       <DrawerInstance.Screen name="Maps" component={Maps} />
+      <DrawerInstance.Screen name="AboutUs" component={AboutUs} />
     </DrawerInstance.Navigator>
   );
 }

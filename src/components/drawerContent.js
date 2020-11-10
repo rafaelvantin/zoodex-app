@@ -3,6 +3,7 @@ import { View, Image, StyleSheet } from "react-native";
 import { ZooContext } from "../store/zooContext";
 
 import Icon from "react-native-vector-icons/Ionicons";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import AsyncStorage from "@react-native-community/async-storage";
 
@@ -31,18 +32,15 @@ export default function DrawerContent(props) {
       icon: "md-map",
     },
     {
-      label: "Informações Zoo",
+      label: "Zoológico",
       routeName: "ZooInfo",
-      icon: "md-information-circle",
+      icon: "ios-leaf",
     },
   ];
 
   return (
     <View style={{ flex: 1, backgroundColor: "#008000" }}>
       <DrawerContentScrollView {...props}>
-        {/* <Drawer.Section style={styles.imageContainer}>
-          <Image source={require("../../assets/logo.png")} style={styles.image} />
-        </Drawer.Section> */}
         <Drawer.Section style={styles.drawerSection}>
           {tabs.map((item) => (
             <DrawerItem
@@ -69,6 +67,18 @@ export default function DrawerContent(props) {
             focused={activeRoute === "Settings"}
             label="Settings"
             onPress={async () => await AsyncStorage.clear()}
+          />
+          <DrawerItem
+            icon={({ color, size }) => <Icon name="md-information-circle" color={color} size={size} />}
+            activeBackgroundColor="white"
+            activeTintColor="#008000"
+            inactiveTintColor="#fcfcfc"
+            focused={activeRoute === "AboutUs"}
+            label="Sobre o aplicativo"
+            onPress={() => {
+              setActiveRoute("AboutUs");
+              props.navigation.navigate("AboutUs");
+            }}
           />
         </Drawer.Section>
       </DrawerContentScrollView>

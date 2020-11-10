@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   View,
@@ -14,38 +14,45 @@ import { Ionicons } from "@expo/vector-icons";
 
 const { width, height } = Dimensions.get("window");
 
-export default function Animal({ navigation }) {
+export default function Animal({ route, navigation }) {
+  const [animalInfo, setAnimalInfo] = useState([]);
 
-  const animalInfo = [
-    {
-      type: "Nome científico",
-      value: "Panthera Tigris Sumatrae",
-    },
-    {
-      type: "Filo",
-      value: "Chordata",
-    },
-    {
-      type: "Classe",
-      value: "Mamíferos",
-    },
-    {
-      type: "Família",
-      value: "Felidae",
-    },
-    {
-      type: "Alimentacao",
-      value: "Carnivoro",
-    },
-    {
-      type: "Habitat",
-      value: "Floresta Montanhosa",
-    },
-    {
-      type: "Expectativa",
-      value: "18-25 anos",
-    },
-  ];
+  useEffect(() => {
+    if(route.params.animal != null){
+      const animal = route.params.animal;
+      setAnimalInfo([
+        {
+          type: "Nome científico",
+          value: animal.scientificName,
+        },
+        {
+          type: "Filo",
+          value: animal.phylum,
+        },
+        {
+          type: "Classe",
+          value: animal.className,
+        },
+        {
+          type: "Hábitos diários",
+          value: animal.clockHabit
+        },
+        {
+          type: "Alimentacao",
+          value: animal.alimentation,
+        },
+        {
+          type: "Habitat",
+          value: animal.habitat,
+        },
+        {
+          type: "Expectativa",
+          value: animal.lifeExpectancy,
+        },
+      ]);
+    }
+  }, []);
+
 
   return ( 
     <View style={styles.container}>

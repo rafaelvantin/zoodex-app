@@ -2,14 +2,12 @@ import React, { useEffect, useState, useContext } from "react";
 
 import { BarCodeScanner } from "expo-barcode-scanner";
 
-import { View, StyleSheet, ActivityIndicator, Alert } from "react-native";
+import { View, StyleSheet, ActivityIndicator, Alert, Text } from "react-native";
 
 import { AnimalContext } from "../store/animalContext";
 import { ZooContext } from "../store/zooContext";
 
 import { validateAnimal } from "../services/animals";
-
-import AsyncStorage from "@react-native-community/async-storage";
 
 export default function ScanQR({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
@@ -32,8 +30,8 @@ export default function ScanQR({ navigation }) {
     validateAnimal(id, activeZoo)
     .then(() => {
       setScannedData("");
-      saveFoundAnimal(id).then(() => navigation.navigate("Animal"))
-      .catch(() => Alert.alert("Erro", "Erro na hora de salvar o animal", [{ text: "Ok", onPress: () => setScannedData("") }]));
+      saveFoundAnimal(id).then(() => navigation.navigate("Animal", { animalId: id }))
+      .catch(() => Alert.alert("Erro", "Erro na hora de salvar o animal, verifique se você já o tem", [{ text: "Ok", onPress: () => setScannedData("") }]));
     })
     .catch(({ response }) => Alert.alert("Erro", response.data.valid === false ? response.data.error : "Erro no scan", [{ text: "Ok", onPress: () => setScannedData("") }]));
   };
@@ -42,11 +40,14 @@ export default function ScanQR({ navigation }) {
     <View style={styles.container}>
       <View style={{ flex: 1 }}>
         {scannedData == "" ? (
-          <BarCodeScanner
-            onBarCodeScanned={scannedData ? undefined : onRead}
-            barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
-            style={StyleSheet.absoluteFill}
-          />
+          <>
+            <Text style={styles.text}>Aponte a câmera para o código</Text>
+            <BarCodeScanner
+              onBarCodeScanned={scannedData ? undefined : onRead}
+              barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
+              style={StyleSheet.absoluteFill}
+            />
+          </>
         ) : (
           <ActivityIndicator
             style={{ position: "absolute", top: 0, bottom: 0, alignSelf: "center" }}
@@ -65,4 +66,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#1e1e1e",
     opacity: 0.97,
   },
+  text: {
+    alignSelf: "center",
+    color: "#fff",
+    fontFamily: "Montserrat-bold",
+    fontSize: 20,
+    paddingTop: 50,
+  }
 });

@@ -11,6 +11,8 @@ export const AnimalContext = createContext([]);
 export const AnimalStorage = ({ children }) => {
   const [animals, setAnimals] = useState([]);
   const [foundAnimals, setFoundAnimals] = useState({});
+  const [updated, setUpdated] = useState(false);
+
   const { activeZoo } = useContext(ZooContext);
 
   const createObjectInstance = () => {
@@ -55,16 +57,21 @@ export const AnimalStorage = ({ children }) => {
           newFoundAnimals = foundAnimals;
           newFoundAnimals[activeZoo].push(id);
           setFoundAnimals(newFoundAnimals);
+          setUpdated(!updated);
           await AsyncStorage.setItem("@foundAnimals", JSON.stringify(newFoundAnimals));
         }).catch(() => reject());
+        
+        resolve();
+      }
+      else{
+        reject();
       }
       
-      resolve();
     });
   };
 
   return (
-    <AnimalContext.Provider value={{ animals, foundAnimals, getThisFoundAnimals, fetchAnimals, saveFoundAnimal }}>
+    <AnimalContext.Provider value={{ animals, foundAnimals, getThisFoundAnimals, fetchAnimals, saveFoundAnimal, updated }}>
       {children}
     </AnimalContext.Provider>
   );

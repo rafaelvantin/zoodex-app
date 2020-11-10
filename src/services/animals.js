@@ -30,7 +30,7 @@ const validateAnimal = (id, zooId) => {
 const capturedAnimal = (id, zooId) => {
   return new Promise((resolve, reject) => {
     $api
-      .post(`/user/animal/${id}`, { headers: { zoo_id: zooId } })
+      .post(`/user/animal/${id}`, {}, { headers: { zoo_id: zooId } })
       .catch((error) => reject(error))
       .then(() => resolve());
   });

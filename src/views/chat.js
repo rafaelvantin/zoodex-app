@@ -67,7 +67,7 @@ export default function Chat() {
         messages={messages}
         style={{ flex: 1 }}
         placeholder="Escreva aqui..."
-        renderAvatar={null}
+        // renderAvatar={null}
         renderUsernameOnMessage={true}
         renderBubble={renderBubble}
         renderSend={renderSend}

@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext, useState, useRef } from "react";
 
 import {
   View,
@@ -15,14 +15,13 @@ import { AnimalContext } from "../store/animalContext.js";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function AnimalItem({ item }) {
-
-  const { foundAnimals, getThisFoundAnimals } = useContext(AnimalContext);
+  const { getThisFoundAnimals, updated } = useContext(AnimalContext);
 
   const [isAnimalDiscovered, setIsAnimalDiscovered] = useState(false);
 
   useEffect(() => {
-    if(getThisFoundAnimals().includes(item._id)) setIsAnimalDiscovered(true);
-  }, [foundAnimals]);
+      if(getThisFoundAnimals().includes(item._id)) setIsAnimalDiscovered(true);
+  }, [updated]);
 
   const navigation = useNavigation();
 
@@ -32,10 +31,10 @@ export default function AnimalItem({ item }) {
         styles.animalBox,
         { alignItems: "stretch", backgroundColor: "#C5FA84" },
       ]}
-      onPress={() => navigation.navigate("Animal", { animalId: item.id })}
+      onPress={() => navigation.navigate("Animal", { animal: item })}
     >
       <View style={{ flexGrow: 1, backgroundColor: "transparent" }}>
-        <Image source={{ uri: item.image }} style={styles.animalImage} />
+        <Image source={{ uri: item.avatar }} style={styles.animalImage} />
       </View>
     </TouchableHighlight>
   );
@@ -58,9 +57,11 @@ export default function AnimalItem({ item }) {
         </Text>
         <View style={styles.habitatContainer}>
           <MaterialCommunityIcons name="tree" color="#7CAA4B" size={32} />
-          <Text style={styles.habitatText}>
-            {isAnimalDiscovered ? item.habitat : "?"}
-          </Text>
+          <View style={{flex: 1}}>
+            <Text style={styles.habitatText}>
+              {isAnimalDiscovered ? item.habitat : "?"}
+            </Text>
+          </View>
         </View>
       </View>
     </View>
@@ -87,6 +88,7 @@ const styles = StyleSheet.create({
   infoContainer: {
     marginTop: 10,
     marginLeft: 8,
+    flex: 1,
   },
   nameText: {
     fontFamily: "Montserrat-bold",

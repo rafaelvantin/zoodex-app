@@ -1,18 +1,34 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { View, Text, Image, StyleSheet } from "react-native";
 
-import { Ionicons } from "@expo/vector-icons";
+import { EvilIcons } from '@expo/vector-icons';
 
 import ZoomableView from "@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView";
 
 import DrawerIcon from "../components/drawerIcon.js";
 
+import { ZooContext } from "../store/zooContext";
+
 export default function Maps({ navigation }) {
+
+  const { zooInfo } = useContext(ZooContext);
+
+  if(zooInfo.map == null){
+    return(
+      <View style={styles.notFoundContainer}>
+        <EvilIcons name="exclamation" size={60} color="black" />
+        <Text style={styles.warningText}>O zoológico não possui nenhum mapa cadastrado.</Text>
+        <DrawerIcon dark="true" />
+      </View>
+    );
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <View style={{ flex: 1, zIndex: 9 }}>
         <ZoomableView
+          style={{backgroundColor: "white"}}
           maxZoom={1.5}
           minZoom={1}
           zoomStep={0.5}
@@ -22,7 +38,7 @@ export default function Maps({ navigation }) {
         >
           <Image
             source={{
-              uri: "https://viajento.files.wordpress.com/2019/05/houston-zoo-estados-unidos-mapa.jpg?w=840",
+              uri: zooInfo.map,
             }}
             style={styles.image}
           />
@@ -44,5 +60,17 @@ const styles = StyleSheet.create({
     height: "100%",
     resizeMode: "contain",
     zIndex: 9,
+  },
+
+  notFoundContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "white",
+  },
+  warningText: {
+    fontFamily: "Montserrat-light",
+    fontSize: 13,
+    marginTop: 15,
   },
 });

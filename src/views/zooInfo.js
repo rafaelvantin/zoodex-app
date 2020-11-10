@@ -36,10 +36,10 @@ export default function ZooInfo({ navigation }) {
   );
 
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
+    <ScrollView style={{ flex: 1, backgroundColor: "white" }}>
       <DrawerIcon dark={true} />
       <LinearGradient colors={["#fff", "#fff"]} style={styles.gradient}>
-        <ScrollView style={styles.container}>
+        <View style={styles.container}>
           <View style={styles.card}>
             <View style={styles.imageContainer}>
               <View style={styles.imageMask}>
@@ -68,9 +68,9 @@ export default function ZooInfo({ navigation }) {
               </View>
             ))}
           </View>
-        </ScrollView>
+        </View>
       </LinearGradient>
-    </View>
+    </ScrollView>
   );
 }
 

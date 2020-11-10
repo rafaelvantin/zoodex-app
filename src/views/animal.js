@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
 import {
   View,
@@ -6,7 +6,8 @@ import {
   Image,
   Text,
   TouchableHighlight,
-  ScrollView,
+  ActivityIndicator,
+  Dimensions,
 } from "react-native";
 
 import { Ionicons, AntDesign } from "@expo/vector-icons";
@@ -15,59 +16,31 @@ import { LinearGradient } from "expo-linear-gradient";
 
 import LottieView from "lottie-react-native";
 
-import searchAnimalById from "../services/animals";
+import { searchAnimalById } from "../services/animals";
+
+import { ZooContext } from "../store/zooContext";
+
+
+const { width, height } = Dimensions.get("window");
 
 export default function Animal({ route, navigation }) {
-  // const { animalId } = route.params;
-  // const [animal, setAnimal] = useState({});
+  const [animal, setAnimal] = useState({});
 
-  // useEffect(() => {
-  //   if(animalId == null) return;
-  //   searchAnimalById(animalId).then((res) => setAnimal(res));
-  // }, []);
+  const { activeZoo } = useContext(ZooContext);
 
-  const [userLiked, setUserLiked] = useState(false);
-  const [showInfo, setShowInfo] = useState(false);
+  useEffect(() => {
+    if(route.params.animal != null) setAnimal(route.params.animal);
+    if(route.params.animalId != null)
+      searchAnimalById(route.params.animalId, activeZoo).then((res) => setAnimal(res));
+  }, []);
 
-  const animal = {
-    name: "Tigre de Sumatra",
-    likes: 30,
-    position: 19,
-  };
-
-  const image =
-    "https://cdn.vox-cdn.com/thumbor/GzQa3VMNyAITTPQU7ZYMfOjg6lQ=/1400x1400/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/19873983/GettyImages_137497593.jpg";
-
-  const animalInfo = [
-    {
-      type: "Nome científico",
-      value: "Panthera Tigris Sumatrae",
-    },
-    {
-      type: "Filo",
-      value: "Chordata",
-    },
-    {
-      type: "Classe",
-      value: "Mamíferos",
-    },
-    {
-      type: "Família",
-      value: "Felidae",
-    },
-    {
-      type: "Alimentacao",
-      value: "Carnivoro",
-    },
-    {
-      type: "Habitat",
-      value: "Floresta Montanhosa",
-    },
-    {
-      type: "Expectativa",
-      value: "18-25 anos",
-    },
-  ];
+  if(animal == null) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator style={styles.animation} color="#1e1e1e" size="large" />
+      </View>
+    )
+  }
 
   return (
     <View style={styles.container}>
@@ -80,7 +53,7 @@ export default function Animal({ route, navigation }) {
         </TouchableHighlight>
       </View>
 
-      <Image source={{ uri: image }} style={styles.image} />
+      <Image source={{ uri: animal.avatar }} style={styles.image} />
 
       <View style={styles.gradientContainer}>
         <LinearGradient
@@ -91,39 +64,13 @@ export default function Animal({ route, navigation }) {
             <Text style={styles.name}>{animal.name}</Text>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Ionicons name="md-people" color="#43adfb" size={28} />
-              <Text style={styles.position}>{animal.position}</Text>
+              <Text style={styles.position}>{animal.timesCaptured}</Text>
             </View>
           </View>
 
-          {/* <View style={styles.sidebar}>
-            <View style={styles.likesContainer}>
-              {userLiked ? (
-                <AntDesign
-                  name="heart"
-                  color="#d92027"
-                  size={35}
-                  onPress={() => setUserLiked(false)}
-                />
-              ) : (
-                <AntDesign
-                  name="hearto"
-                  color="#fff"
-                  size={35}
-                  onPress={() => setUserLiked(true)}
-                />
-              )}
-              <Text style={styles.count}>{animal.likes}</Text>
-            </View>
-            <View style={styles.likesContainer}>
-              <Ionicons name="md-share" color="#fff" size={30} />
-              <Text style={styles.count}>Share</Text>
-            </View>
-          </View> */}
-
           <View style={styles.bookContainer}>
             <TouchableHighlight
-              // onPress={() => setShowInfo(!showInfo)}
-              onPress={() => navigation.navigate("AnimalInfo")}
+              onPress={() => navigation.navigate("AnimalInfo", { animal: animal })}
               underlayColor="transparent"
               style={{ flex: 1 }}
             >
@@ -163,6 +110,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fcfcfc",
+  },
+  animation: {
+    width: width,
+    height: height,
   },
 
   backIconContainer: {

@@ -4,6 +4,8 @@ import { View, Text, Image, StyleSheet, Animated, Easing } from "react-native";
 
 import { UserContext } from "../store/userContext";
 
+import AsyncStorage from "@react-native-community/async-storage";
+
 const LogoFade = (props) => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
@@ -50,13 +52,13 @@ const LogoTransform = () => {
             {
               scaleX: fadeAnim.interpolate({
                 inputRange: [0, 1],
-                outputRange: [1.0, 1.1],
+                outputRange: [1.0, 1.0],
               }),
             },
             {
               scaleY: fadeAnim.interpolate({
                 inputRange: [0, 1],
-                outputRange: [1.0, 1.1],
+                outputRange: [1.0, 1.0],
               }),
             },
           ],
@@ -78,20 +80,7 @@ export default function EnterZoo({ navigation }) {
 
   return (
     <View style={styles.container}>
-      {/* <LogoFade style={styles.logoContainer}> */}
         <LogoTransform />
-      {/* </LogoFade> */}
-      {/* <LogoFade style={styles.textContainer}>
-        <Text style={styles.headline}>Em parceria com</Text>
-        <View style={{ flexDirection: "row", justifyContent: "center" }}>
-          <View style={styles.imageContainer}>
-            <Image style={styles.unespImage} source={require("../../assets/unesp.png")} />
-          </View>
-          <View style={styles.imageContainer}>
-            <Image style={styles.ctiImage} source={require("../../assets/cti.png")} />
-          </View>
-        </View>
-      </LogoFade> */}
     </View>
   );
 }
