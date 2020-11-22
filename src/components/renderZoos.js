@@ -29,14 +29,17 @@ export default function RenderZoos() {
 
   const { foundZoos, fetchZooInfo, saveActiveZoo } = useContext(ZooContext);
 
-  const loadZoos = () => {
+  const loadZoos = async () => {
     setNumSlides([]);
     for (let i = 0; i < foundZoos.length; i++) setNumSlides([...numSlides, i]);
-    foundZoos.map(async (item) => setZoos([...zoos, await fetchZooInfo(item)]));
+
+    const newZoos = await Promise.all(foundZoos.map(async (item) => await fetchZooInfo(item))); 
+    setZoos(newZoos);
+
     if(zoos.length > 0) setShowInfo(true);
   };
 
-  useEffect(() => loadZoos(), [foundZoos]);
+  useEffect(() => {loadZoos()}, [foundZoos]);
   
 
   const onScroll = ({ nativeEvent }) => {
@@ -54,7 +57,7 @@ export default function RenderZoos() {
       <View style={{ backgroundColor: "white", width, height }}>
         <View style={styles.imageContainer}>
           <View style={styles.imageMask}>
-            <Image style={styles.image} source={{ uri: item.avatar }} />
+            {item.avatar ? <Image style={styles.image} source={{ uri: item.avatar }} /> : <View style={styles.image} />}
           </View>
         </View>
         <View style={styles.textContainer}>
@@ -81,8 +84,8 @@ export default function RenderZoos() {
         )}
       </ScrollView>
       <View style={styles.pageIndex}>
-        {numSlides.length > 0 &&
-          numSlides.map((item, index) => (
+        {foundZoos.length > 0 &&
+          foundZoos.map((item, index) => (
             <Text key={index} style={index == currentSlide ? styles.activeText : styles.inactiveText}>
               ⬤
             </Text>

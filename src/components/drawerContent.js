@@ -59,7 +59,7 @@ export default function DrawerContent(props) {
           ))}
         </Drawer.Section>
         <Drawer.Section>
-          <DrawerItem
+          {/* <DrawerItem
             icon={({ size }) => <Icon name="md-settings" color="#fcfcfc" size={size} />}
             activeBackgroundColor="white"
             activeTintColor="#008000"
@@ -67,7 +67,7 @@ export default function DrawerContent(props) {
             focused={activeRoute === "Settings"}
             label="Settings"
             onPress={async () => await AsyncStorage.clear()}
-          />
+          /> */}
           <DrawerItem
             icon={({ color, size }) => <Icon name="md-information-circle" color={color} size={size} />}
             activeBackgroundColor="white"

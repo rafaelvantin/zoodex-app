@@ -72,16 +72,24 @@ export default function EnterZoo({ navigation }) {
   const { getUsername } = useContext(UserContext);
   const [loadHome, setLoadHome] = useState(false);
 
-  setTimeout(() => setLoadHome(true), 1150  );
+  setTimeout(() => setLoadHome(true), 1150);
 
-  useEffect(() => {
+  const continueNavigation = () => {
     if (loadHome) getUsername != "" ? navigation.navigate("Home") : navigation.navigate("InitialSlides");
-  }, [loadHome]);
+  }
+
+  useEffect(() => continueNavigation(), [loadHome]);
 
   return (
     <View style={styles.container}>
-        <LogoTransform />
-    </View>
+        {/* <LogoFade style={styles.logoContainer}> */}
+        {/* <LogoTransform /> */}
+        <View style={styles.imageContainer}>
+          <Image source={require("../../assets/logo.png")} style={styles.image} />
+          {loadHome && <Text style={styles.continueButton} onPress={() => continueNavigation()}>Continuar</Text>}
+        </View>
+          
+      </View>
   );
 }
 
@@ -91,37 +99,21 @@ const styles = StyleSheet.create({
     backgroundColor: "#008000",
     alignItems: "center",
   },
-  logoContainer: {
+  imageContainer: {
     width: "100%",
-    height: 300,
-    marginTop: 90,
+    height: "90%",
     alignItems: "center",
+    justifyContent: "center",
   },
   image: {
-    height: "90%",
+    height: 160,
     resizeMode: "contain",
   },
-  textContainer: {
+  continueButton:{
     position: "absolute",
-    bottom: 20,
-    width: "100%",
-    alignItems: "center",
-  },
-  headline: {
-    fontFamily: "Montserrat-light",
-    fontSize: 10,
-    marginBottom: 15,
-  },
-  imageContainer: {
-    width: 150,
-    alignItems: "center",
-  },
-  unespImage: {
-    resizeMode: "contain",
-    height: 40,
-  },
-  ctiImage: {
-    resizeMode: "contain",
-    height: 40,
-  },
+    bottom: 0,
+    color: "#fff",
+    fontSize: 15,
+    fontFamily: "Montserrat-bold"
+  }
 });

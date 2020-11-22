@@ -9,8 +9,6 @@ import RenderZoos from "../components/renderZoos.js";
 
 import { MaterialIcons } from "@expo/vector-icons";
 
-const { width, height } = Dimensions.get("window");
-
 export default function EnterZoo({ navigation }) {
   const { foundZoos } = useContext(ZooContext);
   const [overlayOn, setOverlayOn] = useState(false);

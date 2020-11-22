@@ -11,19 +11,26 @@ export const ZooStorage = ({ children }) => {
   const [foundZoos, setFoundZoos] = useState([]);
   const [activeZoo, setActiveZoo] = useState("");
 
+  const validateActiveZoo = async () => {
+    if (activeZoo){
+      const fetchedZoo = await searchZoo(activeZoo);
+      console.log(fetchedZoo);
+      fetchedZoo != undefined ? setZooInfo(fetchedZoo) : deleteFoundZoo(activeZoo);
+    }
+  }
+
   useEffect(() => {
     async function loadStorage() {
       const storedActiveZoo = await AsyncStorage.getItem("@activeZoo");
       AsyncStorage.getItem("@foundZoo").then((storedFoundZoos) => storedFoundZoos != null && setFoundZoos(JSON.parse(storedFoundZoos)));
-
       if (storedActiveZoo) setActiveZoo(storedActiveZoo);
     }
     loadStorage();
-    if (activeZoo) (async () => await setZooInfo(fetchZooInfo(activeZoo)))();
+    validateActiveZoo();    
   }, []);
 
   useEffect(() => {
-    if (activeZoo != "") (async () => setZooInfo(await fetchZooInfo(activeZoo)))();
+    validateActiveZoo();
   }, [activeZoo]);
 
   const saveActiveZoo = async (id) => {
@@ -36,6 +43,15 @@ export const ZooStorage = ({ children }) => {
       setFoundZoos([...foundZoos, id]);
       const newFoundZoos = [...foundZoos, id];
       await AsyncStorage.setItem("@foundZoo", JSON.stringify(newFoundZoos));
+    }
+  };
+
+  const deleteFoundZoo = async (id) => {
+    if(foundZoos.includes(id)){
+      const newFoundZoos = foundZoos.filter((item) => item != id);
+      setFoundZoos(newFoundZoos);
+      await AsyncStorage.setItem("@foundZoo", JSON.stringify(newFoundZoos));
+      saveActiveZoo("");
     }
   };
 

@@ -20,6 +20,7 @@ export default function AnimalItem({ item }) {
   const [isAnimalDiscovered, setIsAnimalDiscovered] = useState(false);
 
   useEffect(() => {
+    if(getThisFoundAnimals())
       if(getThisFoundAnimals().includes(item._id)) setIsAnimalDiscovered(true);
   }, [updated]);
 

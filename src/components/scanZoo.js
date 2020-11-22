@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 
-import { View, TouchableHighlight, StyleSheet, Dimensions, Alert, ActivityIndicator } from "react-native";
+import { View, TouchableHighlight, StyleSheet, Dimensions, Alert, ActivityIndicator, Text } from "react-native";
 
 import { BarCodeScanner } from "expo-barcode-scanner";
 
@@ -32,6 +32,16 @@ export default function PrizeAnimal({ closeOverlay }) {
       .then(() => saveNewZoo(data.substring(9)).then(() => closeOverlay()))
       .catch(({ response }) => Alert.alert("Erro no Scan!", response.data.valid === false ? response.data.error : "Erro no scan", [{ text: "Ok", onPress: () => closeOverlay() }]));
   };
+  
+  if(!hasPermission){
+    return(
+      <View style={styles.overlayContainer}>
+        <View style={styles.overlayCard}>
+           <Text style={{color: 'white'}}>Por favor, conceda a permissão para usar a câmera.</Text>
+         </View>
+      </View>
+    )
+  }
 
   return (
     <View style={styles.overlayContainer}>
@@ -75,6 +85,7 @@ const styles = StyleSheet.create({
     top: 20,
   },
   overlayCard: {
+    justifyContent: "center",
     width: "90%",
     height: "70%",
     borderRadius: 10,

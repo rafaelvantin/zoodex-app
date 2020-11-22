@@ -1,17 +1,19 @@
 {
   "expo": {
     "name": "Zoodex",
-    "slug": "zoodex-expo",
+    "slug": "coffuel-zoodex",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "android": {
+      "package": "com.coffuel.zoodex",
+      "versionCode": 1,
       "permissions": ["CAMERA"]
     },
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/mysplash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#008000"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
