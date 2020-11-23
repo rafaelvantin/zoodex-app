@@ -84,7 +84,7 @@ export default function DrawerContent(props) {
       </DrawerContentScrollView>
       <Drawer.Section>
         <DrawerItem
-          label="Leave Zoo"
+          label="Sair do Zoo"
           onPress={() => leaveZoo()}
           inactiveTintColor="#fcfcfc"
           icon={({ color, size }) => <Icon name="md-log-out" color={color} size={size} />}

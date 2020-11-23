@@ -14,7 +14,6 @@ export const ZooStorage = ({ children }) => {
   const validateActiveZoo = async () => {
     if (activeZoo){
       const fetchedZoo = await searchZoo(activeZoo);
-      console.log(fetchedZoo);
       fetchedZoo != undefined ? setZooInfo(fetchedZoo) : deleteFoundZoo(activeZoo);
     }
   }

@@ -51,7 +51,7 @@ export default function AnimalItem({ item }) {
       {isAnimalDiscovered ? animalDiscoveredBox : animalUnknownBox}
       <View style={styles.infoContainer}>
         <Text style={styles.nameText}>
-          {isAnimalDiscovered ? item.name : `#unknown`}
+          {isAnimalDiscovered ? item.name : `#desconhecido`}
         </Text>
         <Text style={styles.scientificNameText}>
           {isAnimalDiscovered ? item.scientificName : "?"}

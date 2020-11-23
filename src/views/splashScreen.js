@@ -71,14 +71,16 @@ const LogoTransform = () => {
 export default function EnterZoo({ navigation }) {
   const { getUsername } = useContext(UserContext);
   const [loadHome, setLoadHome] = useState(false);
+  const [showButton, setShowButton] = useState(false);
 
   setTimeout(() => setLoadHome(true), 1150);
+  setTimeout(() => setShowButton(true), 2000);
 
   const continueNavigation = () => {
     if (loadHome) getUsername != "" ? navigation.navigate("Home") : navigation.navigate("InitialSlides");
   }
 
-  useEffect(() => continueNavigation(), [loadHome]);
+  useEffect(() => {continueNavigation()}, [loadHome]);
 
   return (
     <View style={styles.container}>
@@ -86,7 +88,7 @@ export default function EnterZoo({ navigation }) {
         {/* <LogoTransform /> */}
         <View style={styles.imageContainer}>
           <Image source={require("../../assets/logo.png")} style={styles.image} />
-          {loadHome && <Text style={styles.continueButton} onPress={() => continueNavigation()}>Continuar</Text>}
+          {showButton && <Text style={styles.continueButton} onPress={() => continueNavigation()}>Continuar</Text>}
         </View>
           
       </View>

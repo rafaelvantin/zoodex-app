@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     marginTop: 40,
-    marginBottom: 40,
+    marginBottom: 20,
     width: "100%",
     height: height / 2,
     justifyContent: "center",
@@ -137,7 +137,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   button: {
-    marginTop: 100,
+    position: "absolute",
+    bottom: 50,
     height: 50,
     width: "40%",
     borderRadius: 20,

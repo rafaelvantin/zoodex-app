@@ -47,7 +47,6 @@ export default function Chat() {
   };
 
   useEffect(() => {
-
     socket.on("message", (newMessages) => {
       newMessages.map((item) => {
         setMessages((previous) => GiftedChat.append(previous, item));
@@ -62,12 +61,11 @@ export default function Chat() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <GiftedChat
-        user={{ name: getUsername, id: getUserID }}
+        user={{ name: getUsername, _id: getUserID }}
         onSend={(messages) => onSend(messages)}
         messages={messages}
         style={{ flex: 1 }}
         placeholder="Escreva aqui..."
-        // renderAvatar={null}
         renderUsernameOnMessage={true}
         renderBubble={renderBubble}
         renderSend={renderSend}

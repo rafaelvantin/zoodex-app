@@ -14,10 +14,8 @@ export const UserStorage = ({ children }) => {
   useEffect(() => {
     async function loadStorage() {
       const storedName = await AsyncStorage.getItem("@username");
-      const storedID = await AsyncStorage.getItem("@userID");
-
+      AsyncStorage.getItem("@userID").then((storedID) => storedID && setUserID(storedID));
       if (storedName) setUsername(storedName);
-      if (storedID) setUserID(storedID);
     }
     loadStorage();
   }, []);
@@ -27,7 +25,7 @@ export const UserStorage = ({ children }) => {
     await AsyncStorage.setItem("@username", name);
     const generatedID = v4();
     setUserID(generatedID);
-    await AsyncStorage.setItem("@userID", getUserID);
+    await AsyncStorage.setItem("@userID", generatedID);
   };
 
   return (

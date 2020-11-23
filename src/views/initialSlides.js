@@ -90,7 +90,7 @@ export default function InitialSlides({ navigation }) {
           <Image style={styles.image} source={require("../../assets/user.png")} />
         </View>
         <View style={styles.textContainer}>
-          <Text style={styles.title}>Nos conte seu nome.</Text>
+          <Text style={styles.titleAlt}>Nos conte seu nome.</Text>
           <View style={styles.inputContainer}>
             <TextInput style={styles.input} maxLength={14} onChangeText={(text) => setInput(text)} value={input} />
           </View>
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     width: "100%",
-    height: 280,
+    height: "36%",
     marginTop: 80,
     alignItems: "center",
   },
@@ -174,11 +174,16 @@ const styles = StyleSheet.create({
   title: {
     marginBottom: 40,
     fontFamily: "Montserrat-bold",
-    fontSize: 40,
+    fontSize: 35,
+  },
+  titleAlt: {
+    marginBottom: 20,
+    fontFamily: "Montserrat-bold",
+    fontSize: 30,
   },
   text: {
     fontFamily: "Montserrat-light",
-    fontSize: 20,
+    fontSize: 19,
   },
   inputContainer: {
     height: 50,
